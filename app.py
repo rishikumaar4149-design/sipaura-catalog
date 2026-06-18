@@ -32,10 +32,21 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 2. Load and clean the Excel Data directly from "Product catalogue.xlsx"
+# 2. Load and clean the Excel Data directly by searching for the file dynamically
 @st.cache_data
 def load_data():
-    df = pd.read_excel("Product catalogue.xlsx", sheet_name="Catalogue", skiprows=5)
+    import os
+    # Automatically scan the folder for your excel file regardless of capital letters
+    excel_files = [f for f in os.listdir('.') if 'catalogue' in f.lower() and f.endswith('.xlsx')]
+    
+    if not excel_files:
+        raise FileNotFoundError("No file containing 'catalogue' and ending with '.xlsx' found in the repository.")
+    
+    # Pick the first matched file found
+    target_file = excel_files[0]
+    
+    # Read the file using openpyxl engine safely
+    df = pd.read_excel(target_file, sheet_name="Catalogue", skiprows=5, engine="openpyxl")
     df.columns = df.columns.str.strip()
     df = df.dropna(subset=["SKU ID"])
     return df
@@ -43,7 +54,8 @@ def load_data():
 try:
     df = load_data()
 except Exception as e:
-    st.error("Could not read 'Product catalogue.xlsx'. Make sure it is in the same folder as app.py.")
+    st.error(f"⚠️ Error loading file: {str(e)}")
+    st.info("Ensure your spreadsheet is uploaded directly alongside app.py and has a sheet named 'Catalogue'.")
     st.stop()
 
 # 3. Sidebar Brand Header & Filters
