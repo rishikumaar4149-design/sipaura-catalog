@@ -5,7 +5,7 @@ import urllib.parse
 COMPANY_NAME = "SipAura"
 st.set_page_config(page_title=COMPANY_NAME, layout="wide", page_icon="🥤")
 
-# 1. Full HD Premium Theme & 4:5 Aspect Ratio Grid CSS Layout
+# 1. Full HD Premium Theme, Sidebar Logo Theme & 4:5 Grid CSS Layout
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
@@ -17,6 +17,48 @@ st.markdown("""
     @keyframes fadeInUp {
         from { opacity: 0; transform: translateY(12px); }
         to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Dynamic Sidebar Theme to match Logo Dark Charcoal */
+    [data-testid="stSidebar"] {
+        background-color: #131921 !important;
+        color: #FFFFFF !important;
+    }
+    [data-testid="stSidebar"] hr {
+        border-color: #2D3748 !important;
+    }
+    [data-testid="stSidebar"] .stMarkdown p, [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h3 {
+        color: #FFFFFF !important;
+        text-align: center !important;
+    }
+    /* Center align input element labels in sidebar */
+    [data-testid="stSidebar"] label {
+        color: #E2E8F0 !important;
+        text-align: center !important;
+        display: block !important;
+        width: 100% !important;
+    }
+    /* Center align sidebar widget inputs */
+    [data-testid="stSidebar"] .stTextInput, [data-testid="stSidebar"] .stSelectbox {
+        text-align: center !important;
+    }
+    
+    /* Centered Circular Sidebar Logo Frame */
+    .sidebar-logo-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 20px;
+        padding-top: 10px;
+    }
+    .sidebar-logo-container img {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #1E293B;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     
     /* Full HD True Horizontal Banner Container */
@@ -37,12 +79,12 @@ st.markdown("""
         display: block !important;
     }
     
-    /* Larger, Premium Interactive Product Grid Box */
+    /* Interactive Product Grid Box */
     .product-box {
         background: #FFFFFF;
         border: 1px solid #E2E8F0;
         border-radius: 24px;
-        padding: 24px; /* Increased internal padding for larger feel */
+        padding: 24px; 
         margin-bottom: 28px;
         box-shadow: 0 4px 14px rgba(15, 23, 42, 0.015);
         transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -58,7 +100,7 @@ st.markdown("""
     .bottle-img-container {
         width: 100%;
         position: relative;
-        padding-top: 125%; /* Cleans up a exact mathematical 4:5 vertical ratio (5/4 = 1.25) */
+        padding-top: 125%; 
         overflow: hidden;
         margin-bottom: 16px;
         border-radius: 16px;
@@ -70,10 +112,9 @@ st.markdown("""
         left: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover; /* Keeps standard HD scaling crisp within 4:5 box bounds */
+        object-fit: cover; 
     }
     
-    /* Extended Height Layout Segment for larger sections */
     .details-section {
         min-height: 190px; 
         display: flex;
@@ -89,7 +130,6 @@ st.markdown("""
         font-weight: 700;
         margin-bottom: 2px;
     }
-    
     .product-title {
         font-family: 'Inter', sans-serif;
         font-size: 19px;
@@ -160,7 +200,7 @@ st.markdown("""
         border-radius: 12px !important;
         border: none !important;
         font-weight: 600 !important;
-        padding: 12px 20px !important; /* Larger interactive trigger button heights */
+        padding: 12px 20px !important;
         transition: all 0.2s ease;
     }
     .stButton>button:hover {
@@ -182,6 +222,8 @@ st.markdown("""
         letter-spacing: 1px;
         text-transform: uppercase;
         margin-top: 40px;
+        text-align: center;
+        width: 100%;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -248,8 +290,19 @@ if "selected_product" not in st.session_state: st.session_state.selected_product
 
 YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 REPLACE WITH YOUR ACTUAL WHATSAPP NUMBER HERE
 
-# 3. Sidebar Filtering & Branding Configuration
-st.sidebar.markdown(f'<h1 style="font-size:26px; font-weight:800; margin:0; color:#1E293B; font-family:\'Inter\', serif;">{COMPANY_NAME}</h1>', unsafe_allow_html=True)
+# 3. Sidebar Filtering & Centered Layout with Embedded Logo
+import os
+logo_file = next((f for f in os.listdir('.') if 'logo' in f.lower() and f.split('.')[-1].lower() in ['png', 'jpg', 'jpeg']), None)
+
+if logo_file:
+    st.sidebar.markdown(f"""
+        <div class="sidebar-logo-container">
+            <img src="app/static/{logo_file}" onerror="this.onerror=null; this.src='./{logo_file}';">
+        </div>
+    """, unsafe_allow_html=True)
+else:
+    st.sidebar.markdown(f'<h1 style="font-size:26px; font-weight:800; text-align:center; color:#FFFFFF; margin-bottom:10px;">{COMPANY_NAME}</h1>', unsafe_allow_html=True)
+
 st.sidebar.markdown("---")
 
 search_query = st.sidebar.text_input("🔍 Smart Search Catalog", placeholder="Search items...")
@@ -265,13 +318,12 @@ selected_sub = st.sidebar.selectbox("🏷️ Sub-Category", ["All Sub-Categories
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 📞 Contact Information")
-st.sidebar.markdown("💬 **WhatsApp Support:** +91 XXXXX XXXXX")
-st.sidebar.markdown("📧 **Email Channels:** support@sipaura.com")
+st.sidebar.markdown("💬 **WhatsApp:** +91 XXXXX XXXXX")
+st.sidebar.markdown("📧 **Email:** support@sipaura.com")
 
 st.sidebar.markdown('<div class="sidebar-credit">Powered by InFlowMart</div>', unsafe_allow_html=True)
 
 # 4. FIXED FULL HD HORIZONTAL BANNER IMAGE INJECTOR
-# 👇 Ensure your Direct Link is placed here
 BANNER_IMAGE_URL = "https://i.postimg.cc/Dy950cfT/banner.jpg" 
 
 st.markdown(f"""
@@ -349,14 +401,12 @@ else:
         with cols[index % 3]:
             st.markdown('<div class="product-box">', unsafe_allow_html=True)
             
-            # Locked 4:5 Portrait Ratio Image block
             st.markdown(f"""
                 <div class="bottle-img-container">
                     <img src="{img_url}">
                 </div>
             """, unsafe_allow_html=True)
             
-            # Unified larger block container
             html_content = f"""
             <div class="details-section">
                 <div class="brand-tag">{p['category']} • {p['subcategory']}</div>
