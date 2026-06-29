@@ -42,7 +42,7 @@ st.markdown("""
         font-family: 'Playfair Display', Georgia, serif;
         font-style: italic;
         font-weight: 800;
-        font-size: 132px; /* Upscaled to a much larger, bolder statement size */
+        font-size: 192px; /* Upscaled to a much larger, bolder statement size */
         color: #556B2F; 
         margin-bottom: 0px;
         line-height: 1.05;
