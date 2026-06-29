@@ -205,7 +205,7 @@ st.sidebar.markdown("💬 **WhatsApp:** +91 XXXXX XXXXX")
 st.sidebar.markdown("📧 **Email:** support@sipaura.com")
 st.sidebar.markdown("🌐 **Location:** India Office")
 
-# LOWER LEFT CORNER BRADING ATTRIBUTION
+# LOWER LEFT CORNER BRANDING ATTRIBUTION
 st.sidebar.markdown('<div class="footer-credit">⚡ Powered by InFlowMart</div>', unsafe_allow_html=True)
 
 # 4. Main Window Content Showcase
@@ -239,7 +239,7 @@ if st.session_state.selected_product:
                 disc_lbl = f"<span class='discount-badge'>{pct}% OFF</span>"
             except:
                 disc_lbl = ""
-            st.markdown(f"💰 **Price Matrix:** <span class='mrp-strike'>Environmental MRP: ₹{int(float(p['mrp']))}</span> <span style='color:#10B981; font-weight:800; font-size:26px;'>₹{int(float(p['price']))}</span> {disc_lbl}", unsafe_allow_html=True)
+            st.markdown(f"💰 **Price Matrix:** <span class='mrp-strike'>MRP: ₹{int(float(p['mrp']))}</span> <span style='color:#10B981; font-weight:800; font-size:26px;'>₹{int(float(p['price']))}</span> {disc_lbl}", unsafe_allow_html=True)
         else:
             st.markdown(f"💰 **Price Matrix:** **₹{p['price'] if p['price'] else 'Contact Sales'}**")
             
@@ -266,7 +266,7 @@ if st.session_state.selected_product:
 filtered_products = []
 for p in products:
     if selected_category != "All Categories" and p["category"] != selected_category: continue
-    if selected_sub != "All Sub-categories" and p["subcategory"] != selected_sub: continue
+    if selected_sub != "All Sub-Categories" and p["subcategory"] != selected_sub: continue
     if search_query:
         q = search_query.lower()
         if not (q in p["name"].lower() or q in p["sku"].lower() or q in p["description"].lower() or q in p["specification"].lower() or q in p["keywords"].lower()):
@@ -293,10 +293,8 @@ else:
             st.markdown('<div style="margin: 4px 0 16px 0; line-height:1.2;">', unsafe_allow_html=True)
             if p["mrp"] and p["price"] and str(p["mrp"]).strip() != "None":
                 try:
-                    # Strip any fractional numbers, cast strictly to cleaner integers
                     mrp_int = int(float(p['mrp']))
                     price_int = int(float(p['price']))
-                    # Clean clean rounding percentage operation rules
                     pct_val = int(round(float(p['discount']))) if p['discount'] and p['discount'] != 'nan' else int(round(((mrp_int - price_int) / mrp_int) * 100))
                     
                     st.markdown(f"<span class='mrp-strike'>₹{mrp_int}</span>", unsafe_allow_html=True)
@@ -308,7 +306,6 @@ else:
                 price_lbl = f"₹{int(float(p['price'])) if isinstance(p['price'], (int,float)) else p['price']}" if p['price'] else "Contact for Quote"
                 st.markdown(f"<span class='listing-price'>{price_lbl}</span>", unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
-            # ---------------------------------------------------------------------
             
             c1, c2 = st.columns(2)
             with c1:
