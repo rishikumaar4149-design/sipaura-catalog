@@ -5,7 +5,7 @@ import urllib.parse
 COMPANY_NAME = "SipAura"
 st.set_page_config(page_title=COMPANY_NAME, layout="wide", page_icon="🥤")
 
-# 1. Premium E-Commerce Layout & Spacing CSS
+# 1. Full HD Premium Theme & Structural Grid CSS Layout
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
@@ -19,40 +19,32 @@ st.markdown("""
         to { opacity: 1; transform: translateY(0); }
     }
     
-    /* Full HD Horizontal Banner Wrapper Styling */
-    .banner-container {
-        width: 100%;
-        margin-top: -30px; 
-        margin-bottom: 25px;
+    /* Full HD True Horizontal Banner Container Stylesheet */
+    .banner-full-hd {
+        width: 100% !important;
+        margin-top: -45px !important; 
+        margin-left: 0px !important;
+        margin-right: 0px !important;
+        margin-bottom: 25px !important;
         overflow: hidden;
-        border-radius: 20px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        border-radius: 0px 0px 24px 24px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
     }
-    .banner-container img {
-        width: 100%;
-        height: auto;
-        object-fit: contain; 
-        display: block;
-    }
-    
-    .intro-banner {
-        background: linear-gradient(135deg, #2D3748 0%, #1A202C 100%);
-        color: #FFFFFF !important;
-        border-radius: 28px;
-        padding: 30px;
-        margin-bottom: 35px;
-        text-align: center;
-        box-shadow: 0 12px 30px -10px rgba(15, 23, 42, 0.15);
+    .banner-full-hd img {
+        width: 100% !important;
+        height: auto !important;
+        object-fit: fill !important; 
+        display: block !important;
     }
     
-    /* Perfected Product Box Structure */
+    /* Premium Interactive Product Grid Box */
     .product-box {
         background: #FFFFFF;
         border: 1px solid #E2E8F0;
         border-radius: 24px;
-        padding: 22px;
+        padding: 20px;
         margin-bottom: 24px;
-        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.015);
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.01);
         transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         animation: fadeInUp 0.5s ease-out forwards;
     }
@@ -62,8 +54,26 @@ st.markdown("""
         border-color: #CBD5E1;
     }
     
+    /* Center and constrain smaller compact image frame scale natively */
+    .bottle-img-container {
+        width: 100%;
+        max-height: 230px; /* Reduced dimension frame to keep view windows fluid */
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 12px;
+        border-radius: 16px;
+    }
+    .bottle-img-container img {
+        max-height: 230px;
+        width: auto;
+        object-fit: contain;
+    }
+    
+    /* Custom Unified Height Layout Details Segment */
     .details-section {
-        min-height: 160px;
+        min-height: 180px; 
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -77,20 +87,29 @@ st.markdown("""
         font-weight: 700;
         margin-bottom: 2px;
     }
+    
+    /* Flipkart/Amazon High-Impact Headline Spacing Styles */
     .product-title {
         font-family: 'Inter', sans-serif;
-        font-size: 18px;
+        font-size: 19px;
         font-weight: 800;
         color: #0F172A;
-        margin: 4px 0;
+        margin: 4px 0 0px 0;
         line-height: 1.3;
+    }
+    .by-brand-subscript {
+        font-size: 12px;
+        color: #64748B;
+        font-weight: 500;
+        margin-bottom: 8px;
+        display: block;
     }
     .sku-text {
         font-family: monospace;
-        color: #64748B;
+        color: #94A3B8;
         font-size: 11px;
         font-weight: 600;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
     }
     
     .spec-pill {
@@ -134,22 +153,25 @@ st.markdown("""
         margin-left: 6px;
     }
     
+    /* Cohesive Deep Premium Buttons Theme alignment */
     .stButton>button {
-        background-color: #556B2F !important;
+        background-color: #1E293B !important; /* Deep Slate Theme Match */
         color: white !important;
         border-radius: 12px !important;
         border: none !important;
         font-weight: 600 !important;
         padding: 10px 20px !important;
+        transition: all 0.2s ease;
     }
     .stButton>button:hover {
-        background-color: #3B4B20 !important;
+        background-color: #0F172A !important;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
     }
     .summary-card {
         background: #FFFFFF;
         border-radius: 24px;
         padding: 24px;
-        border: 2px solid #556B2F;
+        border: 2px solid #1E293B;
         box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
         margin-bottom: 30px;
     }
@@ -227,7 +249,7 @@ if "selected_product" not in st.session_state: st.session_state.selected_product
 YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 REPLACE WITH YOUR ACTUAL WHATSAPP NUMBER HERE
 
 # 3. Sidebar Filtering & Branding Configuration
-st.sidebar.markdown(f'<h1 style="font-size:26px; font-weight:800; margin:0; color:#556B2F; font-family:\'Inter\', serif; font-style:italic;">{COMPANY_NAME}</h1>', unsafe_allow_html=True)
+st.sidebar.markdown(f'<h1 style="font-size:26px; font-weight:800; margin:0; color:#1E293B; font-family:\'Inter\', serif;">{COMPANY_NAME}</h1>', unsafe_allow_html=True)
 st.sidebar.markdown("---")
 
 search_query = st.sidebar.text_input("🔍 Smart Search Catalog", placeholder="Search items...")
@@ -248,22 +270,12 @@ st.sidebar.markdown("📧 **Email Channels:** support@sipaura.com")
 
 st.sidebar.markdown('<div class="sidebar-credit">Powered by InFlowMart</div>', unsafe_allow_html=True)
 
-# 4. FIXED DIRECT LINK BANNER FIELD
-# 👇 PASTE YOUR COPYS DIRECT LINK FROM POSTIMAGES BETWEEN THE QUOTES BELOW:
-BANNER_IMAGE_URL = "https://i.postimg.cc/Dy950cfT/banner.jpg"
+# 4. FIXED FULL HD HORIZONTAL BANNER IMAGE INJECTOR
+BANNER_IMAGE_URL = "https://images.postimages.org/7178ee4c-21c3-4ff8-8da1-e70a7bf21810.png" # 👈 Ensure Direct link is here
 
 st.markdown(f"""
-    <div class="banner-container">
-        <img src="{BANNER_IMAGE_URL}">
-    </div>
-""", unsafe_allow_html=True)
-
-st.markdown(f"""
-    <div class="intro-banner">
-        <p style="font-size: 16px; opacity: 0.95; margin: 0; font-family:'Inter', sans-serif; font-weight:500; line-height:1.5;">
-            Discover our premium range of high-performance insulated lifestyle drinkware, fitness shakers, and luxury flasks. 
-            Engineered to keep your beverages temperature-locked while complementing your active workspace lifestyle day after day.
-        </p>
+    <div class="banner-full-hd">
+        <img src="{BANNER_IMAGE_URL}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1523362628745-0c100150b504?w=1920&q=80';">
     </div>
 """, unsafe_allow_html=True)
 
@@ -289,7 +301,7 @@ if st.session_state.selected_product:
                 disc_lbl = f"<span class='discount-badge'>{pct}% OFF</span>" if pct > 0 else ""
             except:
                 disc_lbl = ""
-            st.markdown(f"💰 **Pricing Tiers:** <span class='mrp-strike'>MRP: ₹{int(float(p['mrp']))}</span> <span style='color:#556B2F; font-weight:900; font-size:28px;'>₹{int(float(p['price']))}</span> {disc_lbl}", unsafe_allow_html=True)
+            st.markdown(f"💰 **Pricing Tiers:** <span class='mrp-strike'>MRP: ₹{int(float(p['mrp']))}</span> <span style='color:#1E293B; font-weight:900; font-size:28px;'>₹{int(float(p['price']))}</span> {disc_lbl}", unsafe_allow_html=True)
         else:
             st.markdown(f"💰 **Pricing Tiers:** **₹{int(float(p['price'])) if p['price'] else 'Contact Sales'}**")
             
@@ -335,12 +347,20 @@ else:
 
         with cols[index % 3]:
             st.markdown('<div class="product-box">', unsafe_allow_html=True)
-            st.image(img_url, use_container_width=True)
             
+            # Sub-container wrapping image with forced smaller resolution bounding logic
+            st.markdown(f"""
+                <div class="bottle-img-container">
+                    <img src="{img_url}">
+                </div>
+            """, unsafe_allow_html=True)
+            
+            # --- UPDATED: RENDER TITLE AND SUBSCRIPT "by SipAura" NATIVELY TOGETHER ---
             html_content = f"""
             <div class="details-section">
                 <div class="brand-tag">{p['category']} • {p['subcategory']}</div>
                 <div class="product-title">{name}</div>
+                <div class="by-brand-subscript">by SipAura</div>
                 <div class="sku-text">SKU: {sku}</div>
                 <div class="preview-spec-container">
                     <span class="spec-pill">🎨 {p['colour']}</span>
@@ -376,7 +396,7 @@ else:
                     st.rerun()
             with c2:
                 if sku in st.session_state.cart:
-                    st.markdown(f'<div style="text-align:center; padding-top:6px; font-weight:bold; color:#556B2F;">Added ({st.session_state.cart[sku]["qty"]})</div>', unsafe_allow_html=True)
+                    st.markdown(f'<div style="text-align:center; padding-top:6px; font-weight:bold; color:#1E293B;">Added ({st.session_state.cart[sku]["qty"]})</div>', unsafe_allow_html=True)
                 else:
                     if st.button("🛒 Add to List", key=f"a_{sku}_{index}", use_container_width=True):
                         st.session_state.cart[sku] = {"name": name, "qty": 1}
@@ -386,7 +406,7 @@ else:
 # 8. Global Active Cart Display Footer
 if st.session_state.cart:
     st.markdown("---")
-    st.markdown('<div style="background-color: #ECFDF5; padding: 20px; border-radius: 14px; border-left: 6px solid #556B2F;">', unsafe_allow_html=True)
+    st.markdown('<div style="background-color: #ECFDF5; padding: 20px; border-radius: 14px; border-left: 6px solid #1E293B;">', unsafe_allow_html=True)
     st.markdown("### 🛒 Active Request Inquiry List")
     items_summary_text = ""
     for idx, (sku_id, item) in enumerate(st.session_state.cart.items(), 1):
