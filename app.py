@@ -61,7 +61,14 @@ price_series = get_col_data(df, ["Selling Price"])
 desc_series = get_col_data(df, ["Description"])
 spec_series = get_col_data(df, ["Specification", "Specifications"])
 keyword_series = get_col_data(df, ["Key Words", "Keywords"])
-img_series = get_col_data(df, ["Images", "Image Link"])
+
+# Check if an images column exists safely
+if "images" in df.columns:
+    img_series = df["images"]
+elif "image link" in df.columns:
+    img_series = df["image link"]
+else:
+    img_series = pd.Series([None] * len(df))
 
 # Build clean working dataframe
 clean_df = pd.DataFrame({
@@ -99,7 +106,7 @@ if selected_category != "All Categories":
     filtered_df = filtered_df[filtered_df["category"] == selected_category]
 
 # WhatsApp Destination setup
-YOUR_PHONE_NUMBER = "919821352868"  # 👈 PLACE YOUR NUMBER HERE
+YOUR_PHONE_NUMBER = "919821352868"  # 👈 PLACE YOUR REAL WHATSAPP NUMBER HERE
 
 # Main View App
 st.title(f"🥤 {COMPANY_NAME}")
@@ -130,7 +137,7 @@ else:
         price_display = f"₹{row['price']}" if pd.notna(row['price']) else "Contact for Quote"
         
         img_val = row["images"]
-        images_list = ["https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500"] if pd.isna(img_val) else [img.strip() for img in str(img_val).split(",")]
+        images_list = ["https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500"] if pd.isna(img_val) or str(img_val).strip() == "" or str(img_val) == "None" else [img.strip() for img in str(img_val).split(",")]
 
         with cols[index % 3]:
             st.markdown('<div style="padding: 24px; border-radius: 16px; background-color: #FFFFFF; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); border: 1px solid #E9ECEF;">', unsafe_allow_html=True)
