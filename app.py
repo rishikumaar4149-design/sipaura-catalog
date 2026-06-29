@@ -271,7 +271,7 @@ st.sidebar.markdown("📧 **Email Channels:** support@sipaura.com")
 st.sidebar.markdown('<div class="sidebar-credit">Powered by InFlowMart</div>', unsafe_allow_html=True)
 
 # 4. FIXED FULL HD HORIZONTAL BANNER IMAGE INJECTOR
-BANNER_IMAGE_URL = "https://images.postimages.org/7178ee4c-21c3-4ff8-8da1-e70a7bf21810.png" # 👈 Ensure Direct link is here
+BANNER_IMAGE_URL = "https://i.postimg.cc/Dy950cfT/banner.jpg" # 👈 Ensure Direct link is here
 
 st.markdown(f"""
     <div class="banner-full-hd">
