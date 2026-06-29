@@ -19,19 +19,19 @@ st.markdown("""
         to { opacity: 1; transform: translateY(0); }
     }
     
-    /* Full HD Horizontal Banner Wrapper */
+    /* Full HD Horizontal Banner Wrapper Styling */
     .banner-container {
         width: 100%;
-        margin-top: -30px; /* Pulls image up closer to the top browser line */
+        margin-top: -30px; 
         margin-bottom: 25px;
         overflow: hidden;
-        border-radius: 16px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     }
     .banner-container img {
         width: 100%;
         height: auto;
-        object-fit: contain; /* Prevents vertical stretching or cutting */
+        object-fit: contain; 
         display: block;
     }
     
@@ -248,24 +248,15 @@ st.sidebar.markdown("📧 **Email Channels:** support@sipaura.com")
 
 st.sidebar.markdown('<div class="sidebar-credit">Powered by InFlowMart</div>', unsafe_allow_html=True)
 
-# 4. FIXED FULL HD HORIZONTAL BANNER IMAGE (Uses optimal web mapping fallback rules)
-import os
-banner_file = next((f for f in os.listdir('.') if 'banner' in f.lower() and f.split('.')[-1].lower() in ['jpg', 'jpeg', 'png']), None)
+# 4. FIXED DIRECT LINK BANNER FIELD
+# 👇 PASTE YOUR COPYS DIRECT LINK FROM POSTIMAGES BETWEEN THE QUOTES BELOW:
+BANNER_IMAGE_URL = "https://i.postimg.cc/Sxc2r66y/banner.jpg"
 
-if banner_file:
-    # Forces raw display scaling width with static container blocks
-    st.markdown(f"""
-        <div class="banner-container">
-            <img src="app/static/{banner_file}" onerror="this.onerror=null; this.src='./{banner_file}';">
-        </div>
-    """, unsafe_allow_html=True)
-else:
-    # Pulls a premium HD dark-themed drinkware texture placeholder if your file isn't named 'banner' yet
-    st.markdown("""
-        <div class="banner-container">
-            <img src="https://images.unsplash.com/photo-1523362628745-0c100150b504?w=1920&q=80">
-        </div>
-    """, unsafe_allow_html=True)
+st.markdown(f"""
+    <div class="banner-container">
+        <img src="{BANNER_IMAGE_URL}">
+    </div>
+""", unsafe_allow_html=True)
 
 st.markdown(f"""
     <div class="intro-banner">
