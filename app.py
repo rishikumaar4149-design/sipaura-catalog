@@ -5,70 +5,18 @@ import urllib.parse
 COMPANY_NAME = "SipAura"
 st.set_page_config(page_title=COMPANY_NAME, layout="wide", page_icon="🥤")
 
-# 1. Premium E-Commerce Layout, Typography & Grand Writing Animation CSS
+# 1. Premium E-Commerce Layout & Spacing CSS
 st.markdown("""
     <style>
-    /* Import Premium Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600;1,800&family=Inter:wght@400;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
     
     .stApp {
         background-color: #F8FAFC;
     }
     
-    /* Fade-in Animation for Cards */
     @keyframes fadeInUp {
         from { opacity: 0; transform: translateY(12px); }
         to { opacity: 1; transform: translateY(0); }
-    }
-    
-    /* Text Fluid Mask Animation for Signature Writing Look */
-    @keyframes revealWriting {
-        from {
-            background-size: 0% 100%;
-        }
-        to {
-            background-size: 100% 100%;
-        }
-    }
-    
-    /* Centered, Dynamic Ultra-Large Grand Cursive Olive Green Animated Header */
-    .brand-header-container {
-        text-align: center;
-        margin-bottom: 35px;
-        padding-top: 20px;
-    }
-    
-    .company-header {
-        font-family: 'Playfair Display', Georgia, serif;
-        font-style: italic;
-        font-weight: 800;
-        font-size: 192px; /* Upscaled to a much larger, bolder statement size */
-        color: #556B2F; 
-        margin-bottom: 0px;
-        line-height: 1.05;
-        display: inline-block;
-        
-        /* Writing/Drawing Animation Effects */
-        background: linear-gradient(to right, #556B2F, #556B2F) no-repeat;
-        background-size: 0% 100%;
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: revealWriting 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-    
-    .subscript-credit {
-        font-family: 'Inter', sans-serif;
-        font-size: 11px;
-        color: #94A3B8;
-        font-weight: 600;
-        letter-spacing: 2.5px;
-        text-transform: uppercase;
-        display: block;
-        margin-top: 6px;
-        opacity: 0;
-        /* Balanced delay matching the extended write-out length */
-        animation: fadeInUp 0.5s ease-out 2s forwards;
     }
     
     .intro-banner {
@@ -76,12 +24,13 @@ st.markdown("""
         color: #FFFFFF !important;
         border-radius: 28px;
         padding: 30px;
+        margin-top: 20px;
         margin-bottom: 35px;
         text-align: center;
         box-shadow: 0 12px 30px -10px rgba(15, 23, 42, 0.15);
     }
     
-    /* Product Box Structure */
+    /* Perfected Product Box Structure */
     .product-box {
         background: #FFFFFF;
         border: 1px solid #E2E8F0;
@@ -263,7 +212,7 @@ if "selected_product" not in st.session_state: st.session_state.selected_product
 YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 REPLACE WITH YOUR ACTUAL WHATSAPP NUMBER HERE
 
 # 3. Sidebar Filtering & Branding Configuration
-st.sidebar.markdown(f'<h1 style="font-size:26px; font-weight:800; margin:0; color:#556B2F; font-family:\'Playfair Display\', serif; font-style:italic;">{COMPANY_NAME}</h1>', unsafe_allow_html=True)
+st.sidebar.markdown(f'<h1 style="font-size:26px; font-weight:800; margin:0; color:#556B2F; font-family:\'Inter\', serif; font-style:italic;">{COMPANY_NAME}</h1>', unsafe_allow_html=True)
 st.sidebar.markdown("---")
 
 search_query = st.sidebar.text_input("🔍 Smart Search Catalog", placeholder="Search items...")
@@ -279,18 +228,18 @@ selected_sub = st.sidebar.selectbox("🏷️ Sub-Category", ["All Sub-Categories
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 📞 Contact Information")
-st.sidebar.markdown("💬 **WhatsApp Support:** +91 88824 98562")
-st.sidebar.markdown("📧 **Email Channels:** rishiyadav@sipaura.com")
+st.sidebar.markdown("💬 **WhatsApp Support:** +91 XXXXX XXXXX")
+st.sidebar.markdown("📧 **Email Channels:** support@sipaura.com")
 
 st.sidebar.markdown('<div class="sidebar-credit">Powered by InFlowMart</div>', unsafe_allow_html=True)
 
-# 4. Grand Animated Brand Main Header with Subscript
-st.markdown(f"""
-    <div class="brand-header-container">
-        <h1 class="company-header">{COMPANY_NAME}</h1>
-        <span class="subscript-credit">powered by InFlowMart</span>
-    </div>
-""", unsafe_allow_html=True)
+# 4. TOP IMAGE BANNER CONTAINER (Replaces the text header layout natively)
+try:
+    # If your image file has a different name or extension (like banner.png), update this string
+    st.image("banner.jpg", use_container_width=True)
+except:
+    # Fallback message if image is missing from repository folder branch
+    st.warning("⚠️ Place your 'banner.jpg' file inside your GitHub repository root to display your brand image here.")
 
 st.markdown(f"""
     <div class="intro-banner">
@@ -424,6 +373,7 @@ if st.session_state.cart:
     st.markdown("### 🛒 Active Request Inquiry List")
     items_summary_text = ""
     for idx, (sku_id, item) in enumerate(st.session_state.cart.items(), 1):
+        st.write(f"🔹 {item['name']} (Qty: {item['qty']})")
         items_summary_text += f"{idx}. {item['name']} [{sku_id}]\n"
     compiled_message = f"Hi {COMPANY_NAME}! I would love to check stock/orders availability for this selection list:\n\n{items_summary_text}"
     
