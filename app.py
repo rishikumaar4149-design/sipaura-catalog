@@ -5,22 +5,18 @@ import urllib.parse
 COMPANY_NAME = "SIPAURA DRINKWARE"
 st.set_page_config(page_title=COMPANY_NAME, layout="wide", page_icon="🥤")
 
-# 1. High-End E-Commerce Custom Typography & Layout CSS
+# 1. Premium E-Commerce Layout & Spacing CSS
 st.markdown("""
     <style>
-    /* Main Background Frame */
     .stApp {
         background-color: #F8FAFC;
     }
-    
     @keyframes fadeInUp {
         from { opacity: 0; transform: translateY(12px); }
         to { opacity: 1; transform: translateY(0); }
     }
-    
-    /* Company Name / Main Banner Text */
     .company-header {
-        font-family: 'Inter', -apple-system, sans-serif;
+        font-family: 'Inter', sans-serif;
         font-weight: 900;
         letter-spacing: -1.5px;
         background: linear-gradient(to right, #1E293B, #475569);
@@ -28,8 +24,6 @@ st.markdown("""
         -webkit-text-fill-color: transparent;
         margin-bottom: 5px;
     }
-    
-    /* Elegant Intro Card */
     .intro-banner {
         background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
         color: #FFFFFF !important;
@@ -39,7 +33,7 @@ st.markdown("""
         box-shadow: 0 12px 30px -10px rgba(15, 23, 42, 0.15);
     }
     
-    /* E-Commerce Product Card Design Block */
+    /* Perfected Product Box Structure */
     .product-box {
         background: #FFFFFF;
         border: 1px solid #E2E8F0;
@@ -56,42 +50,39 @@ st.markdown("""
         border-color: #CBD5E1;
     }
     
-    /* Premium Styled Typography Hierarchy */
-    .product-title {
-        font-family: 'Inter', system-ui, sans-serif;
-        font-size: 20px;
-        font-weight: 800;
-        color: #0F172A;
-        margin-top: 14px;
-        margin-bottom: 2px;
-        line-height: 1.3;
-        min-height: 54px;
+    /* Unified Details Section to Stop Overlapping */
+    .details-section {
+        min-height: 160px; /* Forces equal height for all columns */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
     }
+    
     .brand-tag {
         font-size: 11px;
         text-transform: uppercase;
         letter-spacing: 1.5px;
         color: #94A3B8;
         font-weight: 700;
-        margin-bottom: 4px;
-        display: block;
+        margin-bottom: 2px;
     }
-    .sku-pill {
-        background-color: #F1F5F9;
-        color: #475569;
+    .product-title {
+        font-family: 'Inter', sans-serif;
+        font-size: 18px;
+        font-weight: 800;
+        color: #0F172A;
+        margin: 4px 0;
+        line-height: 1.3;
+    }
+    .sku-text {
         font-family: monospace;
+        color: #64748B;
         font-size: 11px;
-        font-weight: 700;
-        padding: 4px 10px;
-        border-radius: 30px;
-        display: inline-block;
-        margin-bottom: 12px;
+        font-weight: 600;
+        margin-bottom: 8px;
     }
     
-    /* Attribute Badges (Color & Size on Preview) */
-    .preview-spec-container {
-        margin: 8px 0;
-    }
+    /* Inline specs style formatting */
     .spec-pill {
         background-color: #F8FAFC;
         color: #334155;
@@ -102,10 +93,14 @@ st.markdown("""
         border-radius: 8px;
         display: inline-block;
         margin-right: 6px;
-        margin-bottom: 6px;
+        margin-bottom: 8px;
     }
     
-    /* Flipkart & Amazon Dynamic Price Model Stack */
+    /* Flipkart & Amazon Custom Pricing */
+    .price-container {
+        margin-top: auto; /* Aligns price to the bottom of details container */
+        padding-top: 10px;
+    }
     .mrp-strike {
         font-size: 14px;
         color: #94A3B8;
@@ -127,12 +122,9 @@ st.markdown("""
         padding: 3px 8px;
         border-radius: 6px;
         display: inline-block;
-        margin-left: 8px;
-        vertical-align: middle;
-        letter-spacing: 0.5px;
+        margin-left: 6px;
     }
     
-    /* Form Buttons & Footer Branding */
     .stButton>button {
         background-color: #10B981 !important;
         color: white !important;
@@ -163,7 +155,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 2. Robust Auto-Parsing Excel Pipeline
+# 2. Resilient Auto-Parsing Excel Pipeline
 @st.cache_data
 def load_data():
     import os
@@ -223,9 +215,9 @@ for i in range(len(df)):
 if "cart" not in st.session_state: st.session_state.cart = {}
 if "selected_product" not in st.session_state: st.session_state.selected_product = None
 
-YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 REPLACE WITH YOUR STORE PHONE NUMBER
+YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 REPLACE WITH YOUR ACTUAL WHATSAPP NUMBER HERE
 
-# 3. Sidebar Filtering, Contact Fields & Credit Engine
+# 3. Sidebar Filtering & Branding Configuration
 st.sidebar.markdown(f'<h1 style="font-size:24px; font-weight:800; margin:0; color:#1E293B;">💎 {COMPANY_NAME}</h1>', unsafe_allow_html=True)
 st.sidebar.markdown("---")
 
@@ -247,7 +239,7 @@ st.sidebar.markdown("📧 **Email Channels:** support@sipaura.com")
 
 st.sidebar.markdown('<div class="footer-credit">Powered by InFlowMart</div>', unsafe_allow_html=True)
 
-# 4. Clean Company Header & Welcome Intro Card
+# 4. Main Banner
 st.markdown(f'<h1 class="company-header">{COMPANY_NAME} Official</h1>', unsafe_allow_html=True)
 st.markdown(f"""
     <div class="intro-banner">
@@ -272,7 +264,6 @@ if st.session_state.selected_product:
         st.markdown(f'<span class="sku-pill">SKU CODE: {p["sku"]}</span>', unsafe_allow_html=True)
         st.markdown(f"🎨 **Color Option:** {p['colour']}  |  📏 **Capacity Metric:** {p['capacity']}")
         
-        # Absolute secure percentage discount conversion calculator inside the summary drawer widget
         if p["mrp"] and p["price"]:
             try:
                 m_val = float(p['mrp'])
@@ -329,40 +320,39 @@ else:
             st.markdown('<div class="product-box">', unsafe_allow_html=True)
             st.image(img_url, use_container_width=True)
             
-            # Stylized Brand Tag & Product Name Headline
-            st.markdown(f"<span class='brand-tag'>{p['category']} • {p['subcategory']}</span>", unsafe_allow_html=True)
-            st.markdown(f'<div class="product-title">{name}</div>', unsafe_allow_html=True)
-            st.markdown(f'<span class="sku-pill">SKU: {sku}</span>', unsafe_allow_html=True)
-            
-            # --- NEW ADDITION: KEY ATTRIBUTIONS IN INITIAL PREVIEW ---
-            st.markdown(f"""
+            # Encapsulated Text Details Box to Protect Layout Alignment
+            html_content = f"""
+            <div class="details-section">
+                <div class="brand-tag">{p['category']} • {p['subcategory']}</div>
+                <div class="product-title">{name}</div>
+                <div class="sku-text">SKU: {sku}</div>
                 <div class="preview-spec-container">
                     <span class="spec-pill">🎨 {p['colour']}</span>
                     <span class="spec-pill">📏 {p['capacity']}</span>
                 </div>
-            """, unsafe_allow_html=True)
+                <div class="price-container">
+            """
             
-            # --- RE-ENGINEERED DYNAMIC AMAZON/FLIPKART PERCENTAGE MATH COMPONENT ---
-            st.markdown('<div style="margin: 6px 0 16px 0; line-height:1.2;">', unsafe_allow_html=True)
+            # Dynamic Price Integer Logic Block
             if p["mrp"] and p["price"] and str(p["mrp"]).strip() != "None":
                 try:
                     mrp_int = int(float(p['mrp']))
                     price_int = int(float(p['price']))
-                    
-                    # Direct Dynamic percentage computation math logic block to block decimal anomalies
                     pct_val = int(round(((mrp_int - price_int) / mrp_int) * 100))
                     
-                    st.markdown(f"<span class='mrp-strike'>₹{mrp_int}</span>", unsafe_allow_html=True)
-                    st.markdown(f"<span class='listing-price'>₹{price_int}</span>", unsafe_allow_html=True)
+                    html_content += f"<span class='mrp-strike'>₹{mrp_int}</span>"
+                    html_content += f"<span class='listing-price'>₹{price_int}</span>"
                     if pct_val > 0:
-                        st.markdown(f"<span class='discount-badge'>{pct_val}% OFF</span>", unsafe_allow_html=True)
+                        html_content += f"<span class='discount-badge'>{pct_val}% OFF</span>"
                 except:
-                    st.markdown(f"<span class='listing-price'>₹{p['price']}</span>", unsafe_allow_html=True)
+                    html_content += f"<span class='listing-price'>₹{p['price']}</span>"
             else:
                 price_lbl = f"₹{int(float(p['price'])) if isinstance(p['price'], (int,float)) else p['price']}" if p['price'] else "Contact for Quote"
-                st.markdown(f"<span class='listing-price'>{price_lbl}</span>", unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
-            # ---------------------------------------------------------------------
+                html_content += f"<span class='listing-price'>{price_lbl}</span>"
+                
+            html_content += "</div></div>"
+            st.markdown(html_content, unsafe_allow_html=True)
+            st.markdown("<br>", unsafe_allow_html=True)
             
             c1, c2 = st.columns(2)
             with c1:
