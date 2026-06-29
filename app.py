@@ -5,7 +5,7 @@ import urllib.parse
 COMPANY_NAME = "SipAura"
 st.set_page_config(page_title=COMPANY_NAME, layout="wide", page_icon="🥤")
 
-# 1. Full HD Premium Theme & Structural Grid CSS Layout
+# 1. Full HD Premium Theme & 4:5 Aspect Ratio Grid CSS Layout
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
@@ -19,13 +19,13 @@ st.markdown("""
         to { opacity: 1; transform: translateY(0); }
     }
     
-    /* Full HD True Horizontal Banner Container Stylesheet */
+    /* Full HD True Horizontal Banner Container */
     .banner-full-hd {
         width: 100% !important;
         margin-top: -45px !important; 
         margin-left: 0px !important;
         margin-right: 0px !important;
-        margin-bottom: 25px !important;
+        margin-bottom: 30px !important;
         overflow: hidden;
         border-radius: 0px 0px 24px 24px;
         box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
@@ -37,43 +37,45 @@ st.markdown("""
         display: block !important;
     }
     
-    /* Premium Interactive Product Grid Box */
+    /* Larger, Premium Interactive Product Grid Box */
     .product-box {
         background: #FFFFFF;
         border: 1px solid #E2E8F0;
         border-radius: 24px;
-        padding: 20px;
-        margin-bottom: 24px;
-        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.01);
+        padding: 24px; /* Increased internal padding for larger feel */
+        margin-bottom: 28px;
+        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.015);
         transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         animation: fadeInUp 0.5s ease-out forwards;
     }
     .product-box:hover {
         transform: translateY(-6px);
-        box-shadow: 0 25px 35px -10px rgba(15, 23, 42, 0.12);
+        box-shadow: 0 25px 40px -10px rgba(15, 23, 42, 0.14);
         border-color: #CBD5E1;
     }
     
-    /* Center and constrain smaller compact image frame scale natively */
+    /* Strict 4:5 Portrait Aspect Ratio Container Logic */
     .bottle-img-container {
         width: 100%;
-        max-height: 230px; /* Reduced dimension frame to keep view windows fluid */
+        position: relative;
+        padding-top: 125%; /* Cleans up a exact mathematical 4:5 vertical ratio (5/4 = 1.25) */
         overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 12px;
+        margin-bottom: 16px;
         border-radius: 16px;
+        background-color: #FAFAFA;
     }
     .bottle-img-container img {
-        max-height: 230px;
-        width: auto;
-        object-fit: contain;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Keeps standard HD scaling crisp within 4:5 box bounds */
     }
     
-    /* Custom Unified Height Layout Details Segment */
+    /* Extended Height Layout Segment for larger sections */
     .details-section {
-        min-height: 180px; 
+        min-height: 190px; 
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -88,7 +90,6 @@ st.markdown("""
         margin-bottom: 2px;
     }
     
-    /* Flipkart/Amazon High-Impact Headline Spacing Styles */
     .product-title {
         font-family: 'Inter', sans-serif;
         font-size: 19px;
@@ -109,7 +110,7 @@ st.markdown("""
         color: #94A3B8;
         font-size: 11px;
         font-weight: 600;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
     }
     
     .spec-pill {
@@ -127,7 +128,7 @@ st.markdown("""
     
     .price-container {
         margin-top: auto;
-        padding-top: 10px;
+        padding-top: 12px;
     }
     .mrp-strike {
         font-size: 14px;
@@ -153,14 +154,13 @@ st.markdown("""
         margin-left: 6px;
     }
     
-    /* Cohesive Deep Premium Buttons Theme alignment */
     .stButton>button {
-        background-color: #1E293B !important; /* Deep Slate Theme Match */
+        background-color: #1E293B !important; 
         color: white !important;
         border-radius: 12px !important;
         border: none !important;
         font-weight: 600 !important;
-        padding: 10px 20px !important;
+        padding: 12px 20px !important; /* Larger interactive trigger button heights */
         transition: all 0.2s ease;
     }
     .stButton>button:hover {
@@ -271,7 +271,8 @@ st.sidebar.markdown("📧 **Email Channels:** support@sipaura.com")
 st.sidebar.markdown('<div class="sidebar-credit">Powered by InFlowMart</div>', unsafe_allow_html=True)
 
 # 4. FIXED FULL HD HORIZONTAL BANNER IMAGE INJECTOR
-BANNER_IMAGE_URL = "https://i.postimg.cc/Dy950cfT/banner.jpg" # 👈 Ensure Direct link is here
+# 👇 Ensure your Direct Link is placed here
+BANNER_IMAGE_URL = "https://i.postimg.cc/Dy950cfT/banner.jpg" 
 
 st.markdown(f"""
     <div class="banner-full-hd">
@@ -348,14 +349,14 @@ else:
         with cols[index % 3]:
             st.markdown('<div class="product-box">', unsafe_allow_html=True)
             
-            # Sub-container wrapping image with forced smaller resolution bounding logic
+            # Locked 4:5 Portrait Ratio Image block
             st.markdown(f"""
                 <div class="bottle-img-container">
                     <img src="{img_url}">
                 </div>
             """, unsafe_allow_html=True)
             
-            # --- UPDATED: RENDER TITLE AND SUBSCRIPT "by SipAura" NATIVELY TOGETHER ---
+            # Unified larger block container
             html_content = f"""
             <div class="details-section">
                 <div class="brand-tag">{p['category']} • {p['subcategory']}</div>
