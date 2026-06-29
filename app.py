@@ -5,7 +5,7 @@ import urllib.parse
 COMPANY_NAME = "SipAura"
 st.set_page_config(page_title=COMPANY_NAME, layout="wide", page_icon="🥤")
 
-# 1. Premium E-Commerce Layout, Typography & Writing Animation CSS
+# 1. Premium E-Commerce Layout, Typography & Grand Writing Animation CSS
 st.markdown("""
     <style>
     /* Import Premium Fonts */
@@ -31,21 +31,21 @@ st.markdown("""
         }
     }
     
-    /* Centered, Ultra-Large Cursive Olive Green Animated Header */
+    /* Centered, Dynamic Ultra-Large Grand Cursive Olive Green Animated Header */
     .brand-header-container {
         text-align: center;
-        margin-bottom: 30px;
-        padding-top: 15px;
+        margin-bottom: 35px;
+        padding-top: 20px;
     }
     
     .company-header {
         font-family: 'Playfair Display', Georgia, serif;
         font-style: italic;
         font-weight: 800;
-        font-size: 72px; /* Increased size to look larger and dominant */
+        font-size: 92px; /* Upscaled to a much larger, bolder statement size */
         color: #556B2F; 
         margin-bottom: 0px;
-        line-height: 1.1;
+        line-height: 1.05;
         display: inline-block;
         
         /* Writing/Drawing Animation Effects */
@@ -54,7 +54,7 @@ st.markdown("""
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        animation: revealWriting 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        animation: revealWriting 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
     
     .subscript-credit {
@@ -62,13 +62,13 @@ st.markdown("""
         font-size: 11px;
         color: #94A3B8;
         font-weight: 600;
-        letter-spacing: 2px;
+        letter-spacing: 2.5px;
         text-transform: uppercase;
         display: block;
-        margin-top: 4px;
+        margin-top: 6px;
         opacity: 0;
-        /* Delay the subscript slightly so it shows up right after it finishes writing */
-        animation: fadeInUp 0.5s ease-out 1.8s forwards;
+        /* Balanced delay matching the extended write-out length */
+        animation: fadeInUp 0.5s ease-out 2s forwards;
     }
     
     .intro-banner {
@@ -284,7 +284,7 @@ st.sidebar.markdown("📧 **Email Channels:** support@sipaura.com")
 
 st.sidebar.markdown('<div class="sidebar-credit">Powered by InFlowMart</div>', unsafe_allow_html=True)
 
-# 4. Animated & Ultra-Large Brand Main Header with Subscript
+# 4. Grand Animated Brand Main Header with Subscript
 st.markdown(f"""
     <div class="brand-header-container">
         <h1 class="company-header">{COMPANY_NAME}</h1>
