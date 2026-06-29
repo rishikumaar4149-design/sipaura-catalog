@@ -19,12 +19,27 @@ st.markdown("""
         to { opacity: 1; transform: translateY(0); }
     }
     
+    /* Full HD Horizontal Banner Wrapper */
+    .banner-container {
+        width: 100%;
+        margin-top: -30px; /* Pulls image up closer to the top browser line */
+        margin-bottom: 25px;
+        overflow: hidden;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .banner-container img {
+        width: 100%;
+        height: auto;
+        object-fit: contain; /* Prevents vertical stretching or cutting */
+        display: block;
+    }
+    
     .intro-banner {
         background: linear-gradient(135deg, #2D3748 0%, #1A202C 100%);
         color: #FFFFFF !important;
         border-radius: 28px;
         padding: 30px;
-        margin-top: 20px;
         margin-bottom: 35px;
         text-align: center;
         box-shadow: 0 12px 30px -10px rgba(15, 23, 42, 0.15);
@@ -233,18 +248,29 @@ st.sidebar.markdown("📧 **Email Channels:** support@sipaura.com")
 
 st.sidebar.markdown('<div class="sidebar-credit">Powered by InFlowMart</div>', unsafe_allow_html=True)
 
-# 4. TOP IMAGE BANNER CONTAINER (Replaces the text header layout natively)
-try:
-    # If your image file has a different name or extension (like banner.png), update this string
-    st.image("banner.jpg", use_container_width=True)
-except:
-    # Fallback message if image is missing from repository folder branch
-    st.warning("⚠️ Place your 'banner.jpg' file inside your GitHub repository root to display your brand image here.")
+# 4. FIXED FULL HD HORIZONTAL BANNER IMAGE (Uses optimal web mapping fallback rules)
+import os
+banner_file = next((f for f in os.listdir('.') if 'banner' in f.lower() and f.split('.')[-1].lower() in ['jpg', 'jpeg', 'png']), None)
+
+if banner_file:
+    # Forces raw display scaling width with static container blocks
+    st.markdown(f"""
+        <div class="banner-container">
+            <img src="app/static/{banner_file}" onerror="this.onerror=null; this.src='./{banner_file}';">
+        </div>
+    """, unsafe_allow_html=True)
+else:
+    # Pulls a premium HD dark-themed drinkware texture placeholder if your file isn't named 'banner' yet
+    st.markdown("""
+        <div class="banner-container">
+            <img src="https://images.unsplash.com/photo-1523362628745-0c100150b504?w=1920&q=80">
+        </div>
+    """, unsafe_allow_html=True)
 
 st.markdown(f"""
     <div class="intro-banner">
         <p style="font-size: 16px; opacity: 0.95; margin: 0; font-family:'Inter', sans-serif; font-weight:500; line-height:1.5;">
-            Discover our premium collection of high-performance insulated lifestyle drinkware, fitness shakers, and luxury flasks. 
+            Discover our premium range of high-performance insulated lifestyle drinkware, fitness shakers, and luxury flasks. 
             Engineered to keep your beverages temperature-locked while complementing your active workspace lifestyle day after day.
         </p>
     </div>
