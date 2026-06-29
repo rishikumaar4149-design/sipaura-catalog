@@ -42,6 +42,15 @@ st.markdown("""
         font-size: 11px;
         font-weight: bold;
     }
+    .category-pill {
+        background-color: #E8F0FE;
+        color: #1A73E8;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 20px;
+        margin-left: 5px;
+    }
     .stButton>button {
         background-color: #25D366 !important;
         color: white !important;
@@ -54,6 +63,14 @@ st.markdown("""
     .stButton>button:hover {
         background-color: #128C7E !important;
         box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    }
+    .qty-display {
+        background-color: #F1F3F5;
+        border-radius: 8px;
+        padding: 8px;
+        text-align: center;
+        font-weight: bold;
+        color: #212529;
     }
     .cart-widget {
         background-color: #E3FCEF;
@@ -74,7 +91,6 @@ def load_data():
         st.error("❌ Error: No Excel file (.xlsx) found in your repository.")
         st.stop()
     
-    # Pick the uploaded sheet
     target_file = excel_files[0]
     df = pd.read_excel(target_file, sheet_name=0, skiprows=4, engine="openpyxl")
     df.columns = df.columns.str.strip()
@@ -101,12 +117,11 @@ sub_cats = ["All Sub-categories"] + list(df["Sub category"].dropna().unique()) i
 selected_sub = st.sidebar.selectbox("🏷️ Sub-Category Style", sub_cats)
 
 # WHATSAPP INQUIRY REDIRECTION CONFIGURATION
-YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 PLACE YOUR NUMBER HERE
+YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 PLACE YOUR REAL WHATSAPP NUMBER HERE
 
 # 4. Search Filter Strategy
 filtered_df = df.copy()
 
-# Smart check matching whichever Product column string format matches natively
 name_col = "Product Name" if "Product Name" in filtered_df.columns else "Product Name "
 
 if search_query:
@@ -163,6 +178,7 @@ else:
         name = row.get(name_col, "Premium Drinkware")
         capacity = row.get("Capacity", "N/A")
         colour = row.get("Colour", "N/A")
+        cat_label = row.get("Category", "Drinkware")
         price = row.get("Selling Price")
         price_display = f"₹{price}" if pd.notna(price) and str(price).strip() != "" else "Contact for Quote"
         
@@ -194,7 +210,7 @@ else:
                         st.image(url, use_container_width=True)
             
             st.markdown(f'<div class="product-title">{name}</div>', unsafe_allow_html=True)
-            st.markdown(f'<span class="sku-badge">SKU: {sku}</span>', unsafe_allow_html=True)
+            st.markdown(f'<span class="sku-badge">SKU: {sku}</span><span class="category-pill">{cat_label}</span>', unsafe_allow_html=True)
             st.markdown(f"### {price_display}")
             
             # Nested Tabs Layout for Clean Overview
@@ -212,9 +228,15 @@ else:
             btn_col1, btn_col2 = st.columns(2)
             with btn_col1:
                 if sku in st.session_state.cart:
-                    if st.button("➕ Add More", key=f"inc_{sku}_{index}"):
-                        st.session_state.cart[sku]["qty"] += 1
-                        st.rerun()
+                    current_qty = st.session_state.cart[sku]["qty"]
+                    # Sub-layout grid to change quantity cleanly or add more
+                    q_col1, q_col2 = st.columns([1, 1])
+                    with q_col1:
+                        st.markdown(f'<div class="qty-display">Selected: {current_qty}</div>', unsafe_allow_html=True)
+                    with q_col2:
+                        if st.button("➕ Add More", key=f"inc_{sku}_{index}"):
+                            st.session_state.cart[sku]["qty"] += 1
+                            st.rerun()
                 else:
                     if st.button("🛒 Add to List", key=f"add_{sku}_{index}"):
                         st.session_state.cart[sku] = {"name": name, "colour": colour, "qty": 1}
