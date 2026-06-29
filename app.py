@@ -8,12 +8,9 @@ st.set_page_config(page_title=COMPANY_NAME, layout="wide", page_icon="🥤")
 # 1. Premium UI & Animation CSS Stylesheet
 st.markdown("""
     <style>
-    /* Global Background Accent */
     .stApp {
         background-color: #F8FAFC;
     }
-    
-    /* Fade-in Animation Engine */
     @keyframes fadeInUp {
         from {
             opacity: 0;
@@ -24,8 +21,6 @@ st.markdown("""
             transform: translateY(0);
         }
     }
-    
-    /* Clean Minimalistic Product Box */
     .product-box {
         background: #FFFFFF;
         border: 1px solid #E2E8F0;
@@ -41,8 +36,6 @@ st.markdown("""
         box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.08);
         border-color: #CBD5E1;
     }
-    
-    /* Interactive Text Layout Metrics */
     .product-title {
         font-family: 'Inter', sans-serif;
         font-size: 19px;
@@ -61,8 +54,6 @@ st.markdown("""
         border-radius: 30px;
         display: inline-block;
     }
-    
-    /* Pricing Architecture badges */
     .mrp-strike {
         font-size: 14px;
         color: #94A3B8;
@@ -85,8 +76,6 @@ st.markdown("""
         display: inline-block;
         margin-left: 10px;
     }
-    
-    /* WhatsApp Button Styles override */
     .stButton>button {
         background-color: #10B981 !important;
         color: white !important;
@@ -100,8 +89,6 @@ st.markdown("""
         background-color: #059669 !important;
         box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     }
-    
-    /* Summary Card Drawer Frame */
     .summary-card {
         background: #FFFFFF;
         border-radius: 24px;
@@ -127,7 +114,6 @@ def load_data():
     df = pd.read_excel(target_file, sheet_name=0, engine="openpyxl")
     df.columns = df.columns.str.strip()
     
-    # Auto-adjust tracking frames if rows are shifted
     if "SKU ID" not in df.columns:
         for idx, row in df.iterrows():
             if "SKU ID" in row.astype(str).str.strip().values:
@@ -157,12 +143,10 @@ spec_col = find_column(df, ["Specification", "Specifications"])
 kw_col = find_column(df, ["Key Words", "Keywords"])
 img_col = find_column(df, ["Images", "Image Link"])
 
-# New Pricing structural options mapping
 mrp_col = find_column(df, ["MRP", "Cost Price"])
 discount_col = find_column(df, ["Discount", "Discount %"])
 final_col = find_column(df, ["Final Listing Price", "Selling Price", "Price"])
 
-# Build flat fallback dictionary structures securely
 products = []
 for idx, row in df.iterrows():
     sku_val = str(row[sku_col]) if sku_col else f"SKU-{idx}"
@@ -183,17 +167,16 @@ for idx, row in df.iterrows():
         "price": row[final_col] if final_col else None
     })
 
-# Initialize state trackers
 if "cart" not in st.session_state: st.session_state.cart = {}
 if "selected_product" not in st.session_state: st.session_state.selected_product = None
 
-YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 MAP YOUR BUSINESS WHATSAPP NUMBER HERE
+YOUR_PHONE_NUMBER = "919821352868"  # 👈 REPLACE WITH YOUR STORE PHONE NUMBER
 
 # 4. View Header
 st.title(f"✨ {COMPANY_NAME}")
 st.markdown("Explore our refreshed premium collection with updated retail pricing tiers below.")
 
-# 5. Summary View Box Interface Overlay Drawer
+# 5. Summary View Box Interface
 if st.session_state.selected_product:
     p = st.session_state.selected_product
     st.markdown('<div class="summary-card">', unsafe_allow_html=True)
@@ -207,7 +190,6 @@ if st.session_state.selected_product:
         st.markdown(f'<span class="sku-pill">SKU: {p["sku"]}</span>', unsafe_allow_html=True)
         st.markdown(f"🎨 **Color Attributes:** {p['colour']}  |  📏 **Capacity:** {p['capacity']}")
         
-        # Display advanced pricing metrics inside summary block drawer layout
         if pd.notna(p["mrp"]):
             disc_text = f" ({p['discount']} OFF)" if pd.notna(p['discount']) else ""
             st.markdown(f"💰 **Pricing Model:** <span class='mrp-strike'>₹{p['mrp']}</span> <span style='color:#10B981; font-weight:bold; font-size:20px;'>₹{p['price']}</span> <span style='font-size:14px; color:#16803D;'>{disc_text}</span>", unsafe_allow_html=True)
@@ -233,7 +215,7 @@ if st.session_state.selected_product:
                 st.rerun()
     st.markdown('</div>', unsafe_allow_html=True)
 
-# 6. Sidebar Advanced Filtration Tools
+# 6. Sidebar Filtration Tools
 search_query = st.sidebar.text_input("🔍 Premium Smart Search", placeholder="Search categories, items...")
 unique_cats = sorted(list(set([p["category"] for p in products])))
 selected_category = st.sidebar.selectbox("📂 Category", ["All Categories"] + unique_cats)
@@ -264,7 +246,6 @@ else:
             st.markdown(f'<div class="product-title">{name}</div>', unsafe_allow_html=True)
             st.markdown(f'<span class="sku-pill">SKU: {sku}</span>', unsafe_allow_html=True)
             
-            # --- RENDER NEW PRICING LAYOUT COMPONENT BLOCK ---
             st.markdown('<div style="margin: 12px 0 4px 0;">', unsafe_allow_html=True)
             if pd.notna(p["mrp"]) and str(p["mrp"]).strip() != "":
                 st.markdown(f"<span class='mrp-strike'>₹{p['mrp']}</span>", unsafe_allow_html=True)
@@ -275,7 +256,6 @@ else:
                 price_lbl = f"₹{p['price']}" if p['price'] else "Contact for Quote"
                 st.markdown(f"<span class='listing-price'>{price_lbl}</span>", unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
-            # -------------------------------------------------
             
             c1, c2 = st.columns(2)
             with c1:
@@ -291,7 +271,7 @@ else:
                         st.rerun()
             st.markdown('</div>', unsafe_allow_html=True)
 
-# 8. Global Active Cart Display Footer block
+# 8. Global Active Cart Display Footer
 if st.session_state.cart:
     st.markdown("---")
     st.markdown('<div style="background-color: #ECFDF5; padding: 20px; border-radius: 14px; border-left: 6px solid #10B981;">', unsafe_allow_html=True)
