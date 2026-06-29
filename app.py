@@ -5,7 +5,7 @@ import urllib.parse
 COMPANY_NAME = "SipAura"
 st.set_page_config(page_title=COMPANY_NAME, layout="wide", page_icon="🥤")
 
-# 1. Premium E-Commerce Layout & Spacing CSS
+# 1. Premium E-Commerce Layout, Typography & Writing Animation CSS
 st.markdown("""
     <style>
     /* Import Premium Fonts */
@@ -15,35 +15,60 @@ st.markdown("""
         background-color: #F8FAFC;
     }
     
+    /* Fade-in Animation for Cards */
     @keyframes fadeInUp {
         from { opacity: 0; transform: translateY(12px); }
         to { opacity: 1; transform: translateY(0); }
     }
     
-    /* Centered, Stylish Cursive Olive Green Header Container */
+    /* Text Fluid Mask Animation for Signature Writing Look */
+    @keyframes revealWriting {
+        from {
+            background-size: 0% 100%;
+        }
+        to {
+            background-size: 100% 100%;
+        }
+    }
+    
+    /* Centered, Ultra-Large Cursive Olive Green Animated Header */
     .brand-header-container {
         text-align: center;
-        margin-bottom: 25px;
-        padding-top: 10px;
+        margin-bottom: 30px;
+        padding-top: 15px;
     }
+    
     .company-header {
         font-family: 'Playfair Display', Georgia, serif;
         font-style: italic;
         font-weight: 800;
-        font-size: 54px;
-        color: #556B2F !important; /* Premium Olive Green */
+        font-size: 72px; /* Increased size to look larger and dominant */
+        color: #556B2F; 
         margin-bottom: 0px;
         line-height: 1.1;
+        display: inline-block;
+        
+        /* Writing/Drawing Animation Effects */
+        background: linear-gradient(to right, #556B2F, #556B2F) no-repeat;
+        background-size: 0% 100%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: revealWriting 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
+    
     .subscript-credit {
         font-family: 'Inter', sans-serif;
         font-size: 11px;
         color: #94A3B8;
         font-weight: 600;
-        letter-spacing: 1.5px;
+        letter-spacing: 2px;
         text-transform: uppercase;
         display: block;
-        margin-top: -2px;
+        margin-top: 4px;
+        opacity: 0;
+        /* Delay the subscript slightly so it shows up right after it finishes writing */
+        animation: fadeInUp 0.5s ease-out 1.8s forwards;
     }
     
     .intro-banner {
@@ -56,7 +81,7 @@ st.markdown("""
         box-shadow: 0 12px 30px -10px rgba(15, 23, 42, 0.15);
     }
     
-    /* Perfected Product Box Structure */
+    /* Product Box Structure */
     .product-box {
         background: #FFFFFF;
         border: 1px solid #E2E8F0;
@@ -146,7 +171,7 @@ st.markdown("""
     }
     
     .stButton>button {
-        background-color: #556B2F !important; /* Olive Green Buttons */
+        background-color: #556B2F !important;
         color: white !important;
         border-radius: 12px !important;
         border: none !important;
@@ -259,7 +284,7 @@ st.sidebar.markdown("📧 **Email Channels:** support@sipaura.com")
 
 st.sidebar.markdown('<div class="sidebar-credit">Powered by InFlowMart</div>', unsafe_allow_html=True)
 
-# 4. Centered Brand Main Header with Subscript
+# 4. Animated & Ultra-Large Brand Main Header with Subscript
 st.markdown(f"""
     <div class="brand-header-container">
         <h1 class="company-header">{COMPANY_NAME}</h1>
