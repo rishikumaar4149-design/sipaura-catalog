@@ -53,12 +53,12 @@ st.markdown("""
         padding-top: 10px;
     }
     .sidebar-logo-container img {
-        width: 130px;
-        height: 130px;
+        width: 140px;
+        height: 140px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid #1E293B;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        border: 2px solid #2D3748;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
     }
     
     /* Full HD True Horizontal Banner Container */
@@ -290,18 +290,15 @@ if "selected_product" not in st.session_state: st.session_state.selected_product
 
 YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 REPLACE WITH YOUR ACTUAL WHATSAPP NUMBER HERE
 
-# 3. Sidebar Filtering & Centered Layout with Embedded Logo
-import os
-logo_file = next((f for f in os.listdir('.') if 'logo' in f.lower() and f.split('.')[-1].lower() in ['png', 'jpg', 'jpeg']), None)
+# 3. Sidebar Filtering & Centered Layout with Embedded Web Logo Link
+# ⚠️ PASTE YOUR COPYS DIRECT LINK FROM POSTIMAGES BETWEEN THE QUOTES BELOW:
+LOGO_IMAGE_URL = "https://i.postimg.cc/QdsBtB7q/logo.jpg"
 
-if logo_file:
-    st.sidebar.markdown(f"""
-        <div class="sidebar-logo-container">
-            <img src="app/static/{logo_file}" onerror="this.onerror=null; this.src='./{logo_file}';">
-        </div>
-    """, unsafe_allow_html=True)
-else:
-    st.sidebar.markdown(f'<h1 style="font-size:26px; font-weight:800; text-align:center; color:#FFFFFF; margin-bottom:10px;">{COMPANY_NAME}</h1>', unsafe_allow_html=True)
+st.sidebar.markdown(f"""
+    <div class="sidebar-logo-container">
+        <img src="{LOGO_IMAGE_URL}">
+    </div>
+""", unsafe_allow_html=True)
 
 st.sidebar.markdown("---")
 
