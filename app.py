@@ -250,7 +250,7 @@ st.sidebar.markdown('<div class="sidebar-credit">Powered by InFlowMart</div>', u
 
 # 4. FIXED DIRECT LINK BANNER FIELD
 # 👇 PASTE YOUR COPYS DIRECT LINK FROM POSTIMAGES BETWEEN THE QUOTES BELOW:
-BANNER_IMAGE_URL = "https://i.postimg.cc/Sxc2r66y/banner.jpg"
+BANNER_IMAGE_URL = "https://i.postimg.cc/6QkB1gtL/banner.jpg"
 
 st.markdown(f"""
     <div class="banner-container">
