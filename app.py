@@ -99,7 +99,7 @@ if selected_category != "All Categories":
     filtered_df = filtered_df[filtered_df["category"] == selected_category]
 
 # WhatsApp Destination setup
-YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 PLACE YOUR NUMBER HERE
+YOUR_PHONE_NUMBER = "919821352868"  # 👈 PLACE YOUR NUMBER HERE
 
 # Main View App
 st.title(f"🥤 {COMPANY_NAME}")
