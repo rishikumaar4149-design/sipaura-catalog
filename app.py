@@ -42,7 +42,7 @@ st.markdown("""
         font-family: 'Playfair Display', Georgia, serif;
         font-style: italic;
         font-weight: 800;
-        font-size: 92px; /* Upscaled to a much larger, bolder statement size */
+        font-size: 132px; /* Upscaled to a much larger, bolder statement size */
         color: #556B2F; 
         margin-bottom: 0px;
         line-height: 1.05;
@@ -279,8 +279,8 @@ selected_sub = st.sidebar.selectbox("🏷️ Sub-Category", ["All Sub-Categories
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 📞 Contact Information")
-st.sidebar.markdown("💬 **WhatsApp Support:** +91 XXXXX XXXXX")
-st.sidebar.markdown("📧 **Email Channels:** support@sipaura.com")
+st.sidebar.markdown("💬 **WhatsApp Support:** +91 88824 98562")
+st.sidebar.markdown("📧 **Email Channels:** rishiyadav@sipaura.com")
 
 st.sidebar.markdown('<div class="sidebar-credit">Powered by InFlowMart</div>', unsafe_allow_html=True)
 
