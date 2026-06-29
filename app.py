@@ -5,92 +5,134 @@ import urllib.parse
 COMPANY_NAME = "SIPAURA DRINKWARE"
 st.set_page_config(page_title=COMPANY_NAME, layout="wide", page_icon="🥤")
 
-# 1. Premium UI & E-Commerce Animation Stylesheet
+# 1. High-End E-Commerce Custom Typography & Layout CSS
 st.markdown("""
     <style>
+    /* Main Background Frame */
     .stApp {
         background-color: #F8FAFC;
     }
+    
     @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(12px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
     }
-    /* Intro Banner Design Box */
+    
+    /* Company Name / Main Banner Text */
+    .company-header {
+        font-family: 'Inter', -apple-system, sans-serif;
+        font-weight: 900;
+        letter-spacing: -1.5px;
+        background: linear-gradient(to right, #1E293B, #475569);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 5px;
+    }
+    
+    /* Elegant Intro Card */
     .intro-banner {
-        background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+        background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
         color: #FFFFFF !important;
-        border-radius: 24px;
-        padding: 30px;
-        margin-bottom: 30px;
-        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.1);
+        border-radius: 28px;
+        padding: 35px;
+        margin-bottom: 35px;
+        box-shadow: 0 12px 30px -10px rgba(15, 23, 42, 0.15);
     }
-    /* E-Commerce Minimal Product Box */
+    
+    /* E-Commerce Product Card Design Block */
     .product-box {
         background: #FFFFFF;
         border: 1px solid #E2E8F0;
         border-radius: 24px;
-        padding: 20px;
+        padding: 22px;
         margin-bottom: 24px;
-        box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.02);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.015);
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         animation: fadeInUp 0.5s ease-out forwards;
     }
     .product-box:hover {
         transform: translateY(-6px);
-        box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.08);
+        box-shadow: 0 25px 35px -10px rgba(15, 23, 42, 0.12);
         border-color: #CBD5E1;
     }
+    
+    /* Premium Styled Typography Hierarchy */
     .product-title {
-        font-family: 'Inter', sans-serif;
-        font-size: 18px;
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 20px;
+        font-weight: 800;
+        color: #0F172A;
+        margin-top: 14px;
+        margin-bottom: 2px;
+        line-height: 1.3;
+        min-height: 54px;
+    }
+    .brand-tag {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: #94A3B8;
         font-weight: 700;
-        color: #1E293B;
-        margin-top: 10px;
         margin-bottom: 4px;
-        line-height: 1.4;
-        min-height: 52px;
+        display: block;
     }
     .sku-pill {
         background-color: #F1F5F9;
         color: #475569;
         font-family: monospace;
         font-size: 11px;
-        font-weight: 600;
+        font-weight: 700;
         padding: 4px 10px;
         border-radius: 30px;
         display: inline-block;
         margin-bottom: 12px;
     }
-    /* Amazon & Flipkart Specific Pricing Schema */
+    
+    /* Attribute Badges (Color & Size on Preview) */
+    .preview-spec-container {
+        margin: 8px 0;
+    }
+    .spec-pill {
+        background-color: #F8FAFC;
+        color: #334155;
+        border: 1px solid #E2E8F0;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 8px;
+        display: inline-block;
+        margin-right: 6px;
+        margin-bottom: 6px;
+    }
+    
+    /* Flipkart & Amazon Dynamic Price Model Stack */
     .mrp-strike {
         font-size: 14px;
         color: #94A3B8;
         text-decoration: line-through;
         margin-right: 6px;
+        font-weight: 500;
     }
     .listing-price {
-        font-size: 22px;
-        font-weight: 800;
-        color: #212529;
+        font-size: 24px;
+        font-weight: 900;
+        color: #0F172A;
         display: inline-block;
     }
     .discount-badge {
         background-color: #25D366;
         color: #FFFFFF;
         font-size: 12px;
-        font-weight: 700;
+        font-weight: 800;
         padding: 3px 8px;
         border-radius: 6px;
         display: inline-block;
         margin-left: 8px;
         vertical-align: middle;
+        letter-spacing: 0.5px;
     }
+    
+    /* Form Buttons & Footer Branding */
     .stButton>button {
         background-color: #10B981 !important;
         color: white !important;
@@ -110,23 +152,24 @@ st.markdown("""
         box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
         margin-bottom: 30px;
     }
-    /* Footer Style */
     .footer-credit {
-        font-size: 12px;
+        font-size: 11px;
         color: #94A3B8;
-        font-weight: 500;
-        margin-top: 50px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-top: 60px;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# 2. Dynamic Structural Data Pipeline
+# 2. Robust Auto-Parsing Excel Pipeline
 @st.cache_data
 def load_data():
     import os
     excel_files = [f for f in os.listdir('.') if f.endswith('.xlsx') and not f.startswith('~$')]
     if not excel_files:
-        st.error("❌ No Excel data file detected in repository.")
+        st.error("❌ No Product Spreadsheet detected inside the Repository root.")
         st.stop()
         
     target_file = excel_files[0]
@@ -180,16 +223,14 @@ for i in range(len(df)):
 if "cart" not in st.session_state: st.session_state.cart = {}
 if "selected_product" not in st.session_state: st.session_state.selected_product = None
 
-# WHATSAPP NUMBER CONFIGURATION
-YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 PLACE YOUR REAL NUMBER HERE
+YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 REPLACE WITH YOUR STORE PHONE NUMBER
 
-# 3. Sidebar Filtering, Contact Fields & Powered By InFlowMart
-st.sidebar.markdown(f"## 💎 {COMPANY_NAME}")
+# 3. Sidebar Filtering, Contact Fields & Credit Engine
+st.sidebar.markdown(f'<h1 style="font-size:24px; font-weight:800; margin:0; color:#1E293B;">💎 {COMPANY_NAME}</h1>', unsafe_allow_html=True)
 st.sidebar.markdown("---")
 
-search_query = st.sidebar.text_input("🔍 Smart Search Catalog", placeholder="Search products...")
+search_query = st.sidebar.text_input("🔍 Smart Search Catalog", placeholder="Search items...")
 
-# Categories & Subcategories Logic
 unique_cats = sorted(list(set([p["category"] for p in products])))
 selected_category = st.sidebar.selectbox("📂 Category", ["All Categories"] + unique_cats)
 
@@ -201,20 +242,18 @@ selected_sub = st.sidebar.selectbox("🏷️ Sub-Category", ["All Sub-Categories
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 📞 Contact Information")
-st.sidebar.markdown("💬 **WhatsApp:** +91 XXXXX XXXXX")
-st.sidebar.markdown("📧 **Email:** support@sipaura.com")
-st.sidebar.markdown("🌐 **Location:** India Office")
+st.sidebar.markdown("💬 **WhatsApp Support:** +91 XXXXX XXXXX")
+st.sidebar.markdown("📧 **Email Channels:** support@sipaura.com")
 
-# LOWER LEFT CORNER BRANDING ATTRIBUTION
-st.sidebar.markdown('<div class="footer-credit">⚡ Powered by InFlowMart</div>', unsafe_allow_html=True)
+st.sidebar.markdown('<div class="footer-credit">Powered by InFlowMart</div>', unsafe_allow_html=True)
 
-# 4. Main Window Content Showcase
+# 4. Clean Company Header & Welcome Intro Card
+st.markdown(f'<h1 class="company-header">{COMPANY_NAME} Official</h1>', unsafe_allow_html=True)
 st.markdown(f"""
     <div class="intro-banner">
-        <h1 style="color: white !important; margin-bottom: 8px;">Welcome to {COMPANY_NAME}</h1>
-        <p style="font-size: 16px; opacity: 0.9; margin: 0;">
-            Discover our premium range of high-performance insulated lifestyle drinkware, fitness shakers, and flasks. 
-            Engineered to keep your beverages temperature-locked while complementing your active lifestyle day after day.
+        <p style="font-size: 16px; opacity: 0.95; margin: 0; font-family:'Inter', sans-serif; font-weight:500; line-height:1.5;">
+            Discover our premium collection of high-performance insulated lifestyle drinkware, fitness shakers, and luxury flasks. 
+            Engineered to keep your beverages temperature-locked while complementing your active workspace lifestyle day after day.
         </p>
     </div>
 """, unsafe_allow_html=True)
@@ -228,20 +267,23 @@ if st.session_state.selected_product:
         s_img = [img.strip() for img in str(p["images"]).split(",")][0] if p["images"] and p["images"] != "nan" and p["images"].strip() != "" else "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500"
         st.image(s_img, use_container_width=True)
     with col_s2:
-        st.markdown(f"## 📋 {p['name']}")
-        st.markdown(f'<span class="sku-pill">SKU: {p["sku"]}</span>', unsafe_allow_html=True)
-        st.markdown(f"🎨 **Color Variant:** {p['colour']} | 📏 **Capacity Size:** {p['capacity']}")
+        st.markdown(f"<span class='brand-tag'>{p['category']} • {p['subcategory']}</span>", unsafe_allow_html=True)
+        st.markdown(f"<h2 style='margin-top:0; margin-bottom:4px;'>📋 {p['name']}</h2>", unsafe_allow_html=True)
+        st.markdown(f'<span class="sku-pill">SKU CODE: {p["sku"]}</span>', unsafe_allow_html=True)
+        st.markdown(f"🎨 **Color Option:** {p['colour']}  |  📏 **Capacity Metric:** {p['capacity']}")
         
-        # Format clean percentage calculation metrics in description block view
+        # Absolute secure percentage discount conversion calculator inside the summary drawer widget
         if p["mrp"] and p["price"]:
             try:
-                pct = int(round(p['discount'])) if p['discount'] else int(round(((p['mrp'] - p['price']) / p['mrp']) * 100))
-                disc_lbl = f"<span class='discount-badge'>{pct}% OFF</span>"
+                m_val = float(p['mrp'])
+                p_val = float(p['price'])
+                pct = int(round(((m_val - p_val) / m_val) * 100))
+                disc_lbl = f"<span class='discount-badge'>{pct}% OFF</span>" if pct > 0 else ""
             except:
                 disc_lbl = ""
-            st.markdown(f"💰 **Price Matrix:** <span class='mrp-strike'>MRP: ₹{int(float(p['mrp']))}</span> <span style='color:#10B981; font-weight:800; font-size:26px;'>₹{int(float(p['price']))}</span> {disc_lbl}", unsafe_allow_html=True)
+            st.markdown(f"💰 **Pricing Tiers:** <span class='mrp-strike'>MRP: ₹{int(float(p['mrp']))}</span> <span style='color:#10B981; font-weight:900; font-size:28px;'>₹{int(float(p['price']))}</span> {disc_lbl}", unsafe_allow_html=True)
         else:
-            st.markdown(f"💰 **Price Matrix:** **₹{p['price'] if p['price'] else 'Contact Sales'}**")
+            st.markdown(f"💰 **Pricing Tiers:** **₹{int(float(p['price'])) if p['price'] else 'Contact Sales'}**")
             
         st.markdown("---")
         st.markdown(f"**Description Summary:**\n{p['description']}")
@@ -286,26 +328,41 @@ else:
         with cols[index % 3]:
             st.markdown('<div class="product-box">', unsafe_allow_html=True)
             st.image(img_url, use_container_width=True)
+            
+            # Stylized Brand Tag & Product Name Headline
+            st.markdown(f"<span class='brand-tag'>{p['category']} • {p['subcategory']}</span>", unsafe_allow_html=True)
             st.markdown(f'<div class="product-title">{name}</div>', unsafe_allow_html=True)
             st.markdown(f'<span class="sku-pill">SKU: {sku}</span>', unsafe_allow_html=True)
             
-            # --- RENDER NEW PRICE STRUCTURAL COMPONENT TO AMAZON/FLIPKART TIERS ---
-            st.markdown('<div style="margin: 4px 0 16px 0; line-height:1.2;">', unsafe_allow_html=True)
+            # --- NEW ADDITION: KEY ATTRIBUTIONS IN INITIAL PREVIEW ---
+            st.markdown(f"""
+                <div class="preview-spec-container">
+                    <span class="spec-pill">🎨 {p['colour']}</span>
+                    <span class="spec-pill">📏 {p['capacity']}</span>
+                </div>
+            """, unsafe_allow_html=True)
+            
+            # --- RE-ENGINEERED DYNAMIC AMAZON/FLIPKART PERCENTAGE MATH COMPONENT ---
+            st.markdown('<div style="margin: 6px 0 16px 0; line-height:1.2;">', unsafe_allow_html=True)
             if p["mrp"] and p["price"] and str(p["mrp"]).strip() != "None":
                 try:
                     mrp_int = int(float(p['mrp']))
                     price_int = int(float(p['price']))
-                    pct_val = int(round(float(p['discount']))) if p['discount'] and p['discount'] != 'nan' else int(round(((mrp_int - price_int) / mrp_int) * 100))
+                    
+                    # Direct Dynamic percentage computation math logic block to block decimal anomalies
+                    pct_val = int(round(((mrp_int - price_int) / mrp_int) * 100))
                     
                     st.markdown(f"<span class='mrp-strike'>₹{mrp_int}</span>", unsafe_allow_html=True)
                     st.markdown(f"<span class='listing-price'>₹{price_int}</span>", unsafe_allow_html=True)
-                    st.markdown(f"<span class='discount-badge'>{pct_val}% OFF</span>", unsafe_allow_html=True)
+                    if pct_val > 0:
+                        st.markdown(f"<span class='discount-badge'>{pct_val}% OFF</span>", unsafe_allow_html=True)
                 except:
                     st.markdown(f"<span class='listing-price'>₹{p['price']}</span>", unsafe_allow_html=True)
             else:
                 price_lbl = f"₹{int(float(p['price'])) if isinstance(p['price'], (int,float)) else p['price']}" if p['price'] else "Contact for Quote"
                 st.markdown(f"<span class='listing-price'>{price_lbl}</span>", unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
+            # ---------------------------------------------------------------------
             
             c1, c2 = st.columns(2)
             with c1:
