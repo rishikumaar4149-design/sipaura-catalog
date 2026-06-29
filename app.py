@@ -5,7 +5,7 @@ import urllib.parse
 COMPANY_NAME = "SIPAURA DRINKWARE"
 st.set_page_config(page_title=COMPANY_NAME, layout="wide", page_icon="🥤")
 
-# 1. Premium UI Styling & Animations
+# 1. Premium UI & E-Commerce Animation Stylesheet
 st.markdown("""
     <style>
     .stApp {
@@ -14,20 +14,30 @@ st.markdown("""
     @keyframes fadeInUp {
         from {
             opacity: 0;
-            transform: translateY(15px);
+            transform: translateY(12px);
         }
         to {
             opacity: 1;
             transform: translateY(0);
         }
     }
+    /* Intro Banner Design Box */
+    .intro-banner {
+        background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+        color: #FFFFFF !important;
+        border-radius: 24px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.1);
+    }
+    /* E-Commerce Minimal Product Box */
     .product-box {
         background: #FFFFFF;
         border: 1px solid #E2E8F0;
         border-radius: 24px;
         padding: 20px;
         margin-bottom: 24px;
-        box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.03);
+        box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.02);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         animation: fadeInUp 0.5s ease-out forwards;
     }
@@ -38,11 +48,13 @@ st.markdown("""
     }
     .product-title {
         font-family: 'Inter', sans-serif;
-        font-size: 19px;
+        font-size: 18px;
         font-weight: 700;
-        color: #0F172A;
-        margin-top: 12px;
+        color: #1E293B;
+        margin-top: 10px;
         margin-bottom: 4px;
+        line-height: 1.4;
+        min-height: 52px;
     }
     .sku-pill {
         background-color: #F1F5F9;
@@ -53,28 +65,31 @@ st.markdown("""
         padding: 4px 10px;
         border-radius: 30px;
         display: inline-block;
+        margin-bottom: 12px;
     }
+    /* Amazon & Flipkart Specific Pricing Schema */
     .mrp-strike {
         font-size: 14px;
         color: #94A3B8;
         text-decoration: line-through;
-        margin-right: 8px;
+        margin-right: 6px;
     }
     .listing-price {
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 800;
-        color: #0F172A;
+        color: #212529;
         display: inline-block;
     }
     .discount-badge {
-        background-color: #DCFCE7;
-        color: #15803D;
+        background-color: #25D366;
+        color: #FFFFFF;
         font-size: 12px;
         font-weight: 700;
         padding: 3px 8px;
-        border-radius: 8px;
+        border-radius: 6px;
         display: inline-block;
-        margin-left: 10px;
+        margin-left: 8px;
+        vertical-align: middle;
     }
     .stButton>button {
         background-color: #10B981 !important;
@@ -82,12 +97,10 @@ st.markdown("""
         border-radius: 12px !important;
         border: none !important;
         font-weight: 600 !important;
-        padding: 12px 24px !important;
-        transition: all 0.2s ease;
+        padding: 10px 20px !important;
     }
     .stButton>button:hover {
         background-color: #059669 !important;
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     }
     .summary-card {
         background: #FFFFFF;
@@ -96,12 +109,18 @@ st.markdown("""
         border: 2px solid #10B981;
         box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
         margin-bottom: 30px;
-        animation: fadeInUp 0.3s ease-out;
+    }
+    /* Footer Style */
+    .footer-credit {
+        font-size: 12px;
+        color: #94A3B8;
+        font-weight: 500;
+        margin-top: 50px;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# 2. Hardened Data Engine
+# 2. Dynamic Structural Data Pipeline
 @st.cache_data
 def load_data():
     import os
@@ -111,8 +130,6 @@ def load_data():
         st.stop()
         
     target_file = excel_files[0]
-    
-    # Force search row by row to find where headers start natively
     raw_df = pd.read_excel(target_file, sheet_name=0, engine="openpyxl")
     header_row = 0
     for idx, row in raw_df.iterrows():
@@ -120,33 +137,29 @@ def load_data():
             header_row = idx + 1
             break
             
-    # Load sheet precisely aligned with the discovered header row
     df = pd.read_excel(target_file, sheet_name=0, skiprows=header_row, engine="openpyxl")
     df.columns = df.columns.str.strip()
     return df
 
 df = load_data()
 
-# Helper function to grab columns regardless of trailing spaces
 def get_clean_col(dataframe, keys, default=""):
     for k in keys:
         match = [c for c in dataframe.columns if c.lower().strip() == k.lower().strip()]
-        if match:
-            return dataframe[match[0]]
+        if match: return dataframe[match[0]]
     return pd.Series([default] * len(dataframe))
 
-# Safe Column Mapping
 sku_s = get_clean_col(df, ["SKU ID", "sku"])
 name_s = get_clean_col(df, ["Product Name", "Name"])
 cat_s = get_clean_col(df, ["Category"]).fillna("Drinkware")
 sub_s = get_clean_col(df, ["Sub category", "Subcategory"]).fillna("General")
 cap_s = get_clean_col(df, ["Capacity"]).fillna("N/A")
 col_s = get_clean_col(df, ["Colour", "Color"]).fillna("Standard")
-mrp_s = get_clean_col(df, ["MRP"])
+mrp_s = get_clean_col(df, ["MRP", "Cost Price"])
 disc_s = get_clean_col(df, ["Discount"])
-price_s = get_clean_col(df, ["Final Price", "Final Listing Price", "Selling Price", "Cost Price"])
-desc_s = get_clean_col(df, ["Description"]).fillna("Premium hydration gear.")
-spec_s = get_clean_col(df, ["Specification", "Specifications"]).fillna("Premium insulated build.")
+price_s = get_clean_col(df, ["Final Price", "Final Listing Price", "Selling Price"])
+desc_s = get_clean_col(df, ["Description"]).fillna("Premium hydration gear companion structure.")
+spec_s = get_clean_col(df, ["Specification", "Specifications"]).fillna("Premium structural metrics build.")
 kw_s = get_clean_col(df, ["Key Words", "Keywords"]).fillna("")
 img_s = get_clean_col(df, ["Images", "Image Link"]).fillna("")
 
@@ -155,78 +168,105 @@ for i in range(len(df)):
     if pd.isna(sku_s.iloc[i]) or str(sku_s.iloc[i]).strip() == "nan":
         continue
     products.append({
-        "sku": str(sku_s.iloc[i]),
-        "name": str(name_s.iloc[i]),
-        "category": str(cat_s.iloc[i]),
-        "subcategory": str(sub_s.iloc[i]),
-        "capacity": str(cap_s.iloc[i]),
-        "colour": str(col_s.iloc[i]),
+        "sku": str(sku_s.iloc[i]), "name": str(name_s.iloc[i]), "category": str(cat_s.iloc[i]),
+        "subcategory": str(sub_s.iloc[i]), "capacity": str(cap_s.iloc[i]), "colour": str(col_s.iloc[i]),
         "mrp": mrp_s.iloc[i] if pd.notna(mrp_s.iloc[i]) else None,
-        "discount": str(disc_s.iloc[i]) if pd.notna(disc_s.iloc[i]) else None,
+        "discount": disc_s.iloc[i] if pd.notna(disc_s.iloc[i]) else None,
         "price": price_s.iloc[i] if pd.notna(price_s.iloc[i]) else None,
-        "description": str(desc_s.iloc[i]),
-        "specification": str(spec_s.iloc[i]),
-        "keywords": str(kw_s.iloc[i]),
-        "images": str(img_s.iloc[i])
+        "description": str(desc_s.iloc[i]), "specification": str(spec_s.iloc[i]),
+        "keywords": str(kw_s.iloc[i]), "images": str(img_s.iloc[i])
     })
 
 if "cart" not in st.session_state: st.session_state.cart = {}
 if "selected_product" not in st.session_state: st.session_state.selected_product = None
 
-YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 MAKE SURE YOUR REAL WHATSAPP NUMBER IS PASSED HERE
+# WHATSAPP NUMBER CONFIGURATION
+YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 PLACE YOUR REAL NUMBER HERE
 
-# 4. App Main Layout Headers
-st.title(f"✨ {COMPANY_NAME}")
-st.markdown("Explore our refreshed premium collection with updated retail pricing tiers below.")
+# 3. Sidebar Filtering, Contact Fields & Powered By InFlowMart
+st.sidebar.markdown(f"## 💎 {COMPANY_NAME}")
+st.sidebar.markdown("---")
 
-# 5. Summary View Box Interface Drawer Panel
+search_query = st.sidebar.text_input("🔍 Smart Search Catalog", placeholder="Search products...")
+
+# Categories & Subcategories Logic
+unique_cats = sorted(list(set([p["category"] for p in products])))
+selected_category = st.sidebar.selectbox("📂 Category", ["All Categories"] + unique_cats)
+
+if selected_category != "All Categories":
+    unique_subs = sorted(list(set([p["subcategory"] for p in products if p["category"] == selected_category])))
+else:
+    unique_subs = sorted(list(set([p["subcategory"] for p in products])))
+selected_sub = st.sidebar.selectbox("🏷️ Sub-Category", ["All Sub-Categories"] + unique_subs)
+
+st.sidebar.markdown("---")
+st.sidebar.markdown("### 📞 Contact Information")
+st.sidebar.markdown("💬 **WhatsApp:** +91 XXXXX XXXXX")
+st.sidebar.markdown("📧 **Email:** support@sipaura.com")
+st.sidebar.markdown("🌐 **Location:** India Office")
+
+# LOWER LEFT CORNER BRADING ATTRIBUTION
+st.sidebar.markdown('<div class="footer-credit">⚡ Powered by InFlowMart</div>', unsafe_allow_html=True)
+
+# 4. Main Window Content Showcase
+st.markdown(f"""
+    <div class="intro-banner">
+        <h1 style="color: white !important; margin-bottom: 8px;">Welcome to {COMPANY_NAME}</h1>
+        <p style="font-size: 16px; opacity: 0.9; margin: 0;">
+            Discover our premium range of high-performance insulated lifestyle drinkware, fitness shakers, and flasks. 
+            Engineered to keep your beverages temperature-locked while complementing your active lifestyle day after day.
+        </p>
+    </div>
+""", unsafe_allow_html=True)
+
+# 5. Interactive Details Preview Block Panel Drawer
 if st.session_state.selected_product:
     p = st.session_state.selected_product
     st.markdown('<div class="summary-card">', unsafe_allow_html=True)
-    
     col_s1, col_s2 = st.columns([1, 2])
     with col_s1:
         s_img = [img.strip() for img in str(p["images"]).split(",")][0] if p["images"] and p["images"] != "nan" and p["images"].strip() != "" else "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500"
         st.image(s_img, use_container_width=True)
     with col_s2:
-        st.markdown(f"## 📋 {p['name']} Summary Overview")
+        st.markdown(f"## 📋 {p['name']}")
         st.markdown(f'<span class="sku-pill">SKU: {p["sku"]}</span>', unsafe_allow_html=True)
-        st.markdown(f"🎨 **Color Attributes:** {p['colour']}  |  📏 **Capacity:** {p['capacity']}")
+        st.markdown(f"🎨 **Color Variant:** {p['colour']} | 📏 **Capacity Size:** {p['capacity']}")
         
-        if p["mrp"]:
-            disc_text = f" ({p['discount']} OFF)" if p['discount'] and p['discount'] != "nan" else ""
-            st.markdown(f"💰 **Pricing Model:** <span class='mrp-strike'>₹{p['mrp']}</span> <span style='color:#10B981; font-weight:bold; font-size:24px;'>₹{p['price']}</span> <span style='font-size:14px; color:#15803D; font-weight:bold;'>{disc_text}</span>", unsafe_allow_html=True)
+        # Format clean percentage calculation metrics in description block view
+        if p["mrp"] and p["price"]:
+            try:
+                pct = int(round(p['discount'])) if p['discount'] else int(round(((p['mrp'] - p['price']) / p['mrp']) * 100))
+                disc_lbl = f"<span class='discount-badge'>{pct}% OFF</span>"
+            except:
+                disc_lbl = ""
+            st.markdown(f"💰 **Price Matrix:** <span class='mrp-strike'>Environmental MRP: ₹{int(float(p['mrp']))}</span> <span style='color:#10B981; font-weight:800; font-size:26px;'>₹{int(float(p['price']))}</span> {disc_lbl}", unsafe_allow_html=True)
         else:
-            price_lbl = f"₹{p['price']}" if p['price'] else "Contact Sales"
-            st.markdown(f"💰 **Pricing Model:** **{price_lbl}**")
+            st.markdown(f"💰 **Price Matrix:** **₹{p['price'] if p['price'] else 'Contact Sales'}**")
             
         st.markdown("---")
-        st.markdown(f"**Detailed Information Summary:**\n{p['description']}")
-        st.markdown(f"**Technical Build Specifications:**\n{p['specification']}")
+        st.markdown(f"**Description Summary:**\n{p['description']}")
+        st.markdown(f"**Technical Specifications:**\n{p['specification']}")
         st.markdown("---")
         
         b1, b2, b3 = st.columns(3)
         with b1:
-            if st.button("🛒 Add to My Bulk List", key="s_add"):
+            if st.button("🛒 Add to My Bulk Inquiry List", key="s_add"):
                 st.session_state.cart[p["sku"]] = {"name": p["name"], "qty": 1}
                 st.rerun()
         with b2:
-            single_msg = f"Hi {COMPANY_NAME}! I want to enquire regarding pricing for:\n📦 *Product:* {p['name']}\n🆔 *SKU:* {p['sku']}"
+            single_msg = f"Hi {COMPANY_NAME}! I want to enquire regarding details for:\n📦 *Product:* {p['name']}\n🆔 *SKU:* {p['sku']}"
             st.link_button("⚡ Instant Order Enquiry", f"https://wa.me/{YOUR_PHONE_NUMBER}?text={urllib.parse.quote(single_msg)}", use_container_width=True)
         with b3:
-            if st.button("❌ Close View Frame", use_container_width=True):
+            if st.button("❌ Close Panel View", use_container_width=True):
                 st.session_state.selected_product = None
                 st.rerun()
     st.markdown('</div>', unsafe_allow_html=True)
 
-# 6. Sidebar Filters
-search_query = st.sidebar.text_input("🔍 Premium Smart Search", placeholder="Search categories, items...")
-unique_cats = sorted(list(set([p["category"] for p in products])))
-selected_category = st.sidebar.selectbox("📂 Category", ["All Categories"] + unique_cats)
-
+# 6. Apply Filter Pipelines
 filtered_products = []
 for p in products:
     if selected_category != "All Categories" and p["category"] != selected_category: continue
+    if selected_sub != "All Sub-categories" and p["subcategory"] != selected_sub: continue
     if search_query:
         q = search_query.lower()
         if not (q in p["name"].lower() or q in p["sku"].lower() or q in p["description"].lower() or q in p["specification"].lower() or q in p["keywords"].lower()):
@@ -235,13 +275,12 @@ for p in products:
 
 # 7. Products Show Grid Rendering
 if not filtered_products:
-    st.info("No drinkware units matched those filters.")
+    st.info("No hydration items matched those metrics.")
 else:
     cols = st.columns(3)
     for index, p in enumerate(filtered_products):
         sku = p["sku"]
         name = p["name"]
-        
         img_url = [img.strip() for img in str(p["images"]).split(",")][0] if p["images"] and p["images"] != "nan" and p["images"].strip() != "" else "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500"
 
         with cols[index % 3]:
@@ -250,16 +289,26 @@ else:
             st.markdown(f'<div class="product-title">{name}</div>', unsafe_allow_html=True)
             st.markdown(f'<span class="sku-pill">SKU: {sku}</span>', unsafe_allow_html=True)
             
-            st.markdown('<div style="margin: 12px 0 4px 0;">', unsafe_allow_html=True)
-            if p["mrp"] and str(p["mrp"]).strip() != "None":
-                st.markdown(f"<span class='mrp-strike'>₹{int(float(p['mrp'])) if isinstance(p['mrp'], (int, float)) else p['mrp']}</span>", unsafe_allow_html=True)
-                st.markdown(f"<span class='listing-price'>₹{int(float(p['price'])) if isinstance(p['price'], (int, float)) else p['price']}</span>", unsafe_allow_html=True)
-                if p["discount"] and p["discount"] != "nan" and str(p["discount"]).strip() != "":
-                    st.markdown(f"<span class='discount-badge'>⚡ {p['discount']} OFF</span>", unsafe_allow_html=True)
+            # --- RENDER NEW PRICE STRUCTURAL COMPONENT TO AMAZON/FLIPKART TIERS ---
+            st.markdown('<div style="margin: 4px 0 16px 0; line-height:1.2;">', unsafe_allow_html=True)
+            if p["mrp"] and p["price"] and str(p["mrp"]).strip() != "None":
+                try:
+                    # Strip any fractional numbers, cast strictly to cleaner integers
+                    mrp_int = int(float(p['mrp']))
+                    price_int = int(float(p['price']))
+                    # Clean clean rounding percentage operation rules
+                    pct_val = int(round(float(p['discount']))) if p['discount'] and p['discount'] != 'nan' else int(round(((mrp_int - price_int) / mrp_int) * 100))
+                    
+                    st.markdown(f"<span class='mrp-strike'>₹{mrp_int}</span>", unsafe_allow_html=True)
+                    st.markdown(f"<span class='listing-price'>₹{price_int}</span>", unsafe_allow_html=True)
+                    st.markdown(f"<span class='discount-badge'>{pct_val}% OFF</span>", unsafe_allow_html=True)
+                except:
+                    st.markdown(f"<span class='listing-price'>₹{p['price']}</span>", unsafe_allow_html=True)
             else:
-                price_lbl = f"₹{int(float(p['price'])) if isinstance(p['price'], (int, float)) else p['price']}" if p['price'] else "Contact for Quote"
+                price_lbl = f"₹{int(float(p['price'])) if isinstance(p['price'], (int,float)) else p['price']}" if p['price'] else "Contact for Quote"
                 st.markdown(f"<span class='listing-price'>{price_lbl}</span>", unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
+            # ---------------------------------------------------------------------
             
             c1, c2 = st.columns(2)
             with c1:
@@ -279,7 +328,7 @@ else:
 if st.session_state.cart:
     st.markdown("---")
     st.markdown('<div style="background-color: #ECFDF5; padding: 20px; border-radius: 14px; border-left: 6px solid #10B981;">', unsafe_allow_html=True)
-    st.markdown("### 🛒 Active Request List Details")
+    st.markdown("### 🛒 Active Request Inquiry List")
     items_summary_text = ""
     for idx, (sku_id, item) in enumerate(st.session_state.cart.items(), 1):
         items_summary_text += f"{idx}. {item['name']} [{sku_id}]\n"
