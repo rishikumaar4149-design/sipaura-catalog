@@ -2,254 +2,169 @@ import streamlit as st
 import pandas as pd
 import urllib.parse
 
-# 1. Configuration & Premium Theme Engine
 COMPANY_NAME = "SIPAURA DRINKWARE"
 st.set_page_config(page_title=COMPANY_NAME, layout="wide", page_icon="🥤")
 
-# Premium UI Custom Styling Rules
-st.markdown("""
-    <style>
-    .stApp {
-        background-color: #F8F9FA;
-    }
-    .product-card {
-        padding: 24px;
-        border-radius: 16px;
-        background-color: #FFFFFF;
-        margin-bottom: 24px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        border: 1px solid #E9ECEF;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .product-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-    }
-    .product-title {
-        font-size: 20px;
-        font-weight: 700;
-        color: #1A1A1A;
-        margin-top: 10px;
-        margin-bottom: 4px;
-        line-height: 1.3;
-    }
-    .sku-badge {
-        font-family: monospace;
-        background-color: #E9ECEF;
-        padding: 3px 8px;
-        border-radius: 4px;
-        color: #495057;
-        font-size: 11px;
-        font-weight: bold;
-    }
-    .category-pill {
-        background-color: #E8F0FE;
-        color: #1A73E8;
-        font-size: 11px;
-        font-weight: 600;
-        padding: 2px 8px;
-        border-radius: 20px;
-        margin-left: 5px;
-    }
-    .stButton>button {
-        background-color: #25D366 !important;
-        color: white !important;
-        border-radius: 10px !important;
-        border: none !important;
-        font-weight: 600 !important;
-        padding: 12px 24px !important;
-        font-size: 15px !important;
-    }
-    .stButton>button:hover {
-        background-color: #128C7E !important;
-        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-    }
-    .qty-display {
-        background-color: #F1F3F5;
-        border-radius: 8px;
-        padding: 8px;
-        text-align: center;
-        font-weight: bold;
-        color: #212529;
-    }
-    .cart-widget {
-        background-color: #E3FCEF;
-        padding: 20px;
-        border-radius: 14px;
-        border-left: 6px solid #25D366;
-        margin-bottom: 30px;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
-# 2. Resilient Data Loading Pipeline
+# Data Loading Engine
 @st.cache_data
 def load_data():
     import os
     excel_files = [f for f in os.listdir('.') if f.endswith('.xlsx') and not f.startswith('~$')]
     if not excel_files:
-        st.error("❌ Error: No Excel file (.xlsx) found in your repository.")
+        st.error("❌ No Excel file found in your repository branch.")
         st.stop()
     
     target_file = excel_files[0]
-    df = pd.read_excel(target_file, sheet_name=0, skiprows=4, engine="openpyxl")
-    df.columns = df.columns.str.strip()
-    df = df.dropna(subset=["SKU ID"])
+    
+    # Read the whole sheet without skipping rows first to find where the headers are
+    raw_df = pd.read_excel(target_file, sheet_name=0, engine="openpyxl")
+    
+    # Smart Header Finder: Look for the row containing "SKU ID"
+    header_idx = 0
+    for idx, row in raw_df.iterrows():
+        row_str = row.astype(str).str.lower().values
+        if any('sku id' in s for s in row_str):
+            header_idx = idx + 1
+            break
+            
+    # Reload with the correct header position dynamically
+    df = pd.read_excel(target_file, sheet_name=0, skiprows=header_idx, engine="openpyxl")
+    
+    # Clean up column spaces and capitalization rules
+    df.columns = df.columns.str.strip().str.lower()
+    
+    # Drop completely blank rows
+    df = df.dropna(how='all')
     return df
 
-df = load_data()
+try:
+    df = load_data()
+except Exception as e:
+    st.error(f"❌ Structural Read Error: {str(e)}")
+    st.stop()
 
-# Initialize Multi-Item Inquiry Cart
+# Match columns safely even if capitalization changed
+def get_col_data(dataframe, possible_names, default="N/A"):
+    for name in possible_names:
+        if name.lower() in dataframe.columns:
+            return dataframe[name.lower()]
+    return pd.Series([default] * len(dataframe))
+
+# Map required variables safely
+sku_series = get_col_data(df, ["SKU ID", "sku"])
+name_series = get_col_data(df, ["Product Name", "Product Name "])
+cat_series = get_col_data(df, ["Category"])
+sub_series = get_col_data(df, ["Sub category", "Subcategory"])
+capacity_series = get_col_data(df, ["Capacity"])
+colour_series = get_col_data(df, ["Colour", "Color"])
+price_series = get_col_data(df, ["Selling Price"])
+desc_series = get_col_data(df, ["Description"])
+spec_series = get_col_data(df, ["Specification", "Specifications"])
+keyword_series = get_col_data(df, ["Key Words", "Keywords"])
+img_series = get_col_data(df, ["Images", "Image Link"])
+
+# Build clean working dataframe
+clean_df = pd.DataFrame({
+    "sku": sku_series, "name": name_series, "category": cat_series,
+    "subcategory": sub_series, "capacity": capacity_series, "colour": colour_series,
+    "price": price_series, "description": desc_series, "specification": spec_series,
+    "keywords": keyword_series, "images": img_series
+}).dropna(subset=["sku"])
+
+# Initialize Cart
 if "cart" not in st.session_state:
     st.session_state.cart = {}
 
-# 3. Sidebar Filtering & AI Search Parameters
+# Sidebar Filters
 st.sidebar.markdown(f"## 💎 {COMPANY_NAME}")
-st.sidebar.markdown("*Premium Lifestyle Hydration*")
 st.sidebar.markdown("---")
+search_query = st.sidebar.text_input("🔍 Smart Search Catalog", placeholder="Search items...")
 
-search_query = st.sidebar.text_input("🔍 Smart Search Catalog", placeholder="Search items, keywords, travel, office...")
-
-categories = ["All Categories"] + list(df["Category"].dropna().unique())
+categories = ["All Categories"] + list(clean_df["category"].dropna().unique())
 selected_category = st.sidebar.selectbox("📂 Category Group", categories)
 
-sub_cats = ["All Sub-categories"] + list(df["Sub category"].dropna().unique()) if selected_category == "All Categories" else ["All Sub-categories"] + list(df[df["Category"] == selected_category]["Sub category"].dropna().unique())
-selected_sub = st.sidebar.selectbox("🏷️ Sub-Category Style", sub_cats)
-
-# WHATSAPP INQUIRY REDIRECTION CONFIGURATION
-YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 PLACE YOUR REAL WHATSAPP NUMBER HERE
-
-# 4. Search Filter Strategy
-filtered_df = df.copy()
-
-name_col = "Product Name" if "Product Name" in filtered_df.columns else "Product Name "
+filtered_df = clean_df.copy()
 
 if search_query:
     q = search_query.lower()
     filtered_df = filtered_df[
-        filtered_df[name_col].str.lower().str.contains(q, na=False) |
-        filtered_df["Description"].str.lower().str.contains(q, na=False) |
-        filtered_df["Specification"].str.lower().str.contains(q, na=False) |
-        filtered_df["Key Words"].str.lower().str.contains(q, na=False) |
-        filtered_df["SKU ID"].str.lower().str.contains(q, na=False)
+        filtered_df["name"].astype(str).str.lower().str.contains(q) |
+        filtered_df["description"].astype(str).str.lower().str.contains(q) |
+        filtered_df["specification"].astype(str).str.lower().str.contains(q) |
+        filtered_df["keywords"].astype(str).str.lower().str.contains(q) |
+        filtered_df["sku"].astype(str).str.lower().str.contains(q)
     ]
 
 if selected_category != "All Categories":
-    filtered_df = filtered_df[filtered_df["Category"] == selected_category]
-if selected_sub != "All Sub-categories":
-    filtered_df = filtered_df[filtered_df["Sub category"] == selected_sub]
+    filtered_df = filtered_df[filtered_df["category"] == selected_category]
 
-# 5. Application View Layout
+# WhatsApp Destination setup
+YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 PLACE YOUR NUMBER HERE
+
+# Main View App
 st.title(f"🥤 {COMPANY_NAME}")
-st.markdown("Browse our catalog. Add multiple items to build an inquiry list, then dispatch it seamlessly to WhatsApp.")
 
-# 6. Active Inquiry Cart Widget Render
 if st.session_state.cart:
-    st.markdown('<div class="cart-widget">', unsafe_allow_html=True)
+    st.markdown('<div style="background-color: #E3FCEF; padding: 20px; border-radius: 14px; border-left: 6px solid #25D366; margin-bottom: 30px;">', unsafe_allow_html=True)
     st.markdown("### 🛒 My Current Inquiry List")
-    
     items_summary_text = ""
     for idx, (sku_id, item) in enumerate(st.session_state.cart.items(), 1):
-        st.write(f"🔹 **{item['name']}** ({item['colour']}) — Qty: **{item['qty']}**")
-        items_summary_text += f"{idx}. {item['name']} [{sku_id}] (Qty: {item['qty']} | Color: {item['colour']})\n"
-        
-    compiled_message = f"Hi {COMPANY_NAME}! I am reviewing your digital catalog link and would love to check availability/pricing for these items:\n\n{items_summary_text}"
+        st.write(f"🔹 **{item['name']}** — Qty: **{item['qty']}**")
+        items_summary_text += f"{idx}. {item['name']} [{sku_id}] (Qty: {item['qty']})\n"
+    compiled_message = f"Hi {COMPANY_NAME}! I would love to check availability for these items:\n\n{items_summary_text}"
     encoded_message = urllib.parse.quote(compiled_message)
-    bulk_whatsapp_url = f"https://wa.me/{YOUR_PHONE_NUMBER}?text={encoded_message}"
-    
-    col_w1, col_w2 = st.columns([3, 1])
-    with col_w1:
-        st.link_button("🟢 Submit Order Inquiry to WhatsApp", bulk_whatsapp_url, use_container_width=True)
-    with col_w2:
-        if st.button("🗑️ Clear List", use_container_width=True):
-            st.session_state.cart = {}
-            st.rerun()
+    st.link_button("🟢 Submit Order Inquiry to WhatsApp", f"https://wa.me/{YOUR_PHONE_NUMBER}?text={encoded_message}", use_container_width=True)
+    if st.button("🗑️ Clear List"):
+        st.session_state.cart = {}
+        st.rerun()
     st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown("---")
-
-# 7. Main Core Grid
+# Grid Layout Rendering
 if filtered_df.empty:
-    st.info("No drinkware items found matching these tracking targets.")
+    st.info("No items match your search filters.")
 else:
     cols = st.columns(3)
     for index, row in filtered_df.reset_index().iterrows():
-        sku = row.get("SKU ID", "N/A")
-        name = row.get(name_col, "Premium Drinkware")
-        capacity = row.get("Capacity", "N/A")
-        colour = row.get("Colour", "N/A")
-        cat_label = row.get("Category", "Drinkware")
-        price = row.get("Selling Price")
-        price_display = f"₹{price}" if pd.notna(price) and str(price).strip() != "" else "Contact for Quote"
+        sku = row["sku"]
+        name = row["name"]
+        price_display = f"₹{row['price']}" if pd.notna(row['price']) else "Contact for Quote"
         
-        description = row.get("Description")
-        if pd.isna(description) or str(description).strip() == "":
-            description = "Premium lightweight double-walled design optimized for travel insulation layout."
-            
-        specification = row.get("Specification")
-        if pd.isna(specification) or str(specification).strip() == "":
-            specification = "Grade 304 Stainless Steel | Thermal Insulation Hot & Cold Travel Companion."
-
-        # Comma-split dynamic multiple image gallery support
-        img_column_data = row.get("Images") if "Images" in row else None
-        if pd.isna(img_column_data) or str(img_column_data).strip() == "":
-            images_list = ["https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500"]
-        else:
-            images_list = [img.strip() for img in str(img_column_data).split(",")]
+        img_val = row["images"]
+        images_list = ["https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500"] if pd.isna(img_val) else [img.strip() for img in str(img_val).split(",")]
 
         with cols[index % 3]:
-            st.markdown('<div class="product-card">', unsafe_allow_html=True)
+            st.markdown('<div style="padding: 24px; border-radius: 16px; background-color: #FFFFFF; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); border: 1px solid #E9ECEF;">', unsafe_allow_html=True)
             
-            # Slide Gallery Renderer Tabs
             if len(images_list) == 1:
                 st.image(images_list[0], use_container_width=True)
             else:
                 img_tabs = st.tabs([f"📸 View {i+1}" for i in range(len(images_list))])
                 for i, url in enumerate(images_list):
-                    with img_tabs[i]:
-                        st.image(url, use_container_width=True)
+                    with img_tabs[i]: st.image(url, use_container_width=True)
+                    
+            st.markdown(f"### {name}")
+            st.markdown(f"`SKU: {sku}`")
+            st.markdown(f"## {price_display}")
             
-            st.markdown(f'<div class="product-title">{name}</div>', unsafe_allow_html=True)
-            st.markdown(f'<span class="sku-badge">SKU: {sku}</span><span class="category-pill">{cat_label}</span>', unsafe_allow_html=True)
-            st.markdown(f"### {price_display}")
-            
-            # Nested Tabs Layout for Clean Overview
-            tab_overview, tab_specs = st.tabs(["📋 Overview", "🔧 Technical Specs"])
-            with tab_overview:
-                st.write(f"🎨 **Color Spec:** {colour}")
-                st.write(f"📏 **Volume Capacity:** {capacity}")
-                st.caption(description)
-            with tab_specs:
-                st.markdown(f"*{specification}*")
-            
-            st.markdown("<br>", unsafe_allow_html=True)
-            
-            # Interactive Action Triggers
+            tab1, tab2 = st.tabs(["📋 Details", "🔧 Specs"])
+            with tab1:
+                st.write(f"🎨 **Color:** {row['colour']} | 📏 **Size:** {row['capacity']}")
+                st.caption(str(row['description']))
+            with tab2:
+                st.write(str(row['specification']))
+                
             btn_col1, btn_col2 = st.columns(2)
             with btn_col1:
                 if sku in st.session_state.cart:
-                    current_qty = st.session_state.cart[sku]["qty"]
-                    # Sub-layout grid to change quantity cleanly or add more
-                    q_col1, q_col2 = st.columns([1, 1])
-                    with q_col1:
-                        st.markdown(f'<div class="qty-display">Selected: {current_qty}</div>', unsafe_allow_html=True)
-                    with q_col2:
-                        if st.button("➕ Add More", key=f"inc_{sku}_{index}"):
-                            st.session_state.cart[sku]["qty"] += 1
-                            st.rerun()
+                    st.write(f"Selected: **{st.session_state.cart[sku]['qty']}**")
+                    if st.button("➕ Add", key=f"inc_{sku}_{index}"):
+                        st.session_state.cart[sku]["qty"] += 1
+                        st.rerun()
                 else:
                     if st.button("🛒 Add to List", key=f"add_{sku}_{index}"):
-                        st.session_state.cart[sku] = {"name": name, "colour": colour, "qty": 1}
+                        st.session_state.cart[sku] = {"name": name, "qty": 1}
                         st.rerun()
-                        
             with btn_col2:
-                single_msg = f"Hi {COMPANY_NAME}! I want to instantly check availability for:\n\n" \
-                             f"📦 *Product:* {name}\n" \
-                             f"🆔 *SKU:* {sku}\n" \
-                             f"🎨 *Colour:* {colour}\n" \
-                             f"📏 *Capacity:* {capacity}"
-                encoded_single = urllib.parse.quote(single_msg)
-                single_wa_url = f"https://wa.me/{YOUR_PHONE_NUMBER}?text={encoded_single}"
-                st.link_button("⚡ Quick Buy", single_wa_url, use_container_width=True)
-
+                single_msg = f"Hi {COMPANY_NAME}! I want to check availability for:\n📦 *Product:* {name}\n🆔 *SKU:* {sku}"
+                st.link_button("⚡ Quick Buy", f"https://wa.me/{YOUR_PHONE_NUMBER}?text={urllib.parse.quote(single_msg)}", use_container_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
