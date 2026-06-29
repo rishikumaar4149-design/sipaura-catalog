@@ -2,34 +2,57 @@ import streamlit as st
 import pandas as pd
 import urllib.parse
 
-COMPANY_NAME = "SIPAURA DRINKWARE"
+COMPANY_NAME = "SipAura"
 st.set_page_config(page_title=COMPANY_NAME, layout="wide", page_icon="🥤")
 
 # 1. Premium E-Commerce Layout & Spacing CSS
 st.markdown("""
     <style>
+    /* Import Premium Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600;1,800&family=Inter:wght@400;600;700;800&display=swap');
+    
     .stApp {
         background-color: #F8FAFC;
     }
+    
     @keyframes fadeInUp {
         from { opacity: 0; transform: translateY(12px); }
         to { opacity: 1; transform: translateY(0); }
     }
-    .company-header {
-        font-family: 'Inter', sans-serif;
-        font-weight: 900;
-        letter-spacing: -1.5px;
-        background: linear-gradient(to right, #1E293B, #475569);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 5px;
+    
+    /* Centered, Stylish Cursive Olive Green Header Container */
+    .brand-header-container {
+        text-align: center;
+        margin-bottom: 25px;
+        padding-top: 10px;
     }
+    .company-header {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-weight: 800;
+        font-size: 54px;
+        color: #556B2F !important; /* Premium Olive Green */
+        margin-bottom: 0px;
+        line-height: 1.1;
+    }
+    .subscript-credit {
+        font-family: 'Inter', sans-serif;
+        font-size: 11px;
+        color: #94A3B8;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        display: block;
+        margin-top: -2px;
+    }
+    
     .intro-banner {
-        background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+        background: linear-gradient(135deg, #2D3748 0%, #1A202C 100%);
         color: #FFFFFF !important;
         border-radius: 28px;
-        padding: 35px;
+        padding: 30px;
         margin-bottom: 35px;
+        text-align: center;
         box-shadow: 0 12px 30px -10px rgba(15, 23, 42, 0.15);
     }
     
@@ -50,9 +73,8 @@ st.markdown("""
         border-color: #CBD5E1;
     }
     
-    /* Unified Details Section to Stop Overlapping */
     .details-section {
-        min-height: 160px; /* Forces equal height for all columns */
+        min-height: 160px;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -82,7 +104,6 @@ st.markdown("""
         margin-bottom: 8px;
     }
     
-    /* Inline specs style formatting */
     .spec-pill {
         background-color: #F8FAFC;
         color: #334155;
@@ -96,9 +117,8 @@ st.markdown("""
         margin-bottom: 8px;
     }
     
-    /* Flipkart & Amazon Custom Pricing */
     .price-container {
-        margin-top: auto; /* Aligns price to the bottom of details container */
+        margin-top: auto;
         padding-top: 10px;
     }
     .mrp-strike {
@@ -126,7 +146,7 @@ st.markdown("""
     }
     
     .stButton>button {
-        background-color: #10B981 !important;
+        background-color: #556B2F !important; /* Olive Green Buttons */
         color: white !important;
         border-radius: 12px !important;
         border: none !important;
@@ -134,23 +154,23 @@ st.markdown("""
         padding: 10px 20px !important;
     }
     .stButton>button:hover {
-        background-color: #059669 !important;
+        background-color: #3B4B20 !important;
     }
     .summary-card {
         background: #FFFFFF;
         border-radius: 24px;
         padding: 24px;
-        border: 2px solid #10B981;
+        border: 2px solid #556B2F;
         box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
         margin-bottom: 30px;
     }
-    .footer-credit {
+    .sidebar-credit {
         font-size: 11px;
         color: #94A3B8;
         font-weight: 600;
         letter-spacing: 1px;
         text-transform: uppercase;
-        margin-top: 60px;
+        margin-top: 40px;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -218,7 +238,7 @@ if "selected_product" not in st.session_state: st.session_state.selected_product
 YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 REPLACE WITH YOUR ACTUAL WHATSAPP NUMBER HERE
 
 # 3. Sidebar Filtering & Branding Configuration
-st.sidebar.markdown(f'<h1 style="font-size:24px; font-weight:800; margin:0; color:#1E293B;">💎 {COMPANY_NAME}</h1>', unsafe_allow_html=True)
+st.sidebar.markdown(f'<h1 style="font-size:26px; font-weight:800; margin:0; color:#556B2F; font-family:\'Playfair Display\', serif; font-style:italic;">{COMPANY_NAME}</h1>', unsafe_allow_html=True)
 st.sidebar.markdown("---")
 
 search_query = st.sidebar.text_input("🔍 Smart Search Catalog", placeholder="Search items...")
@@ -237,10 +257,16 @@ st.sidebar.markdown("### 📞 Contact Information")
 st.sidebar.markdown("💬 **WhatsApp Support:** +91 XXXXX XXXXX")
 st.sidebar.markdown("📧 **Email Channels:** support@sipaura.com")
 
-st.sidebar.markdown('<div class="footer-credit">Powered by InFlowMart</div>', unsafe_allow_html=True)
+st.sidebar.markdown('<div class="sidebar-credit">Powered by InFlowMart</div>', unsafe_allow_html=True)
 
-# 4. Main Banner
-st.markdown(f'<h1 class="company-header">{COMPANY_NAME} Official</h1>', unsafe_allow_html=True)
+# 4. Centered Brand Main Header with Subscript
+st.markdown(f"""
+    <div class="brand-header-container">
+        <h1 class="company-header">{COMPANY_NAME}</h1>
+        <span class="subscript-credit">powered by InFlowMart</span>
+    </div>
+""", unsafe_allow_html=True)
+
 st.markdown(f"""
     <div class="intro-banner">
         <p style="font-size: 16px; opacity: 0.95; margin: 0; font-family:'Inter', sans-serif; font-weight:500; line-height:1.5;">
@@ -272,7 +298,7 @@ if st.session_state.selected_product:
                 disc_lbl = f"<span class='discount-badge'>{pct}% OFF</span>" if pct > 0 else ""
             except:
                 disc_lbl = ""
-            st.markdown(f"💰 **Pricing Tiers:** <span class='mrp-strike'>MRP: ₹{int(float(p['mrp']))}</span> <span style='color:#10B981; font-weight:900; font-size:28px;'>₹{int(float(p['price']))}</span> {disc_lbl}", unsafe_allow_html=True)
+            st.markdown(f"💰 **Pricing Tiers:** <span class='mrp-strike'>MRP: ₹{int(float(p['mrp']))}</span> <span style='color:#556B2F; font-weight:900; font-size:28px;'>₹{int(float(p['price']))}</span> {disc_lbl}", unsafe_allow_html=True)
         else:
             st.markdown(f"💰 **Pricing Tiers:** **₹{int(float(p['price'])) if p['price'] else 'Contact Sales'}**")
             
@@ -320,7 +346,6 @@ else:
             st.markdown('<div class="product-box">', unsafe_allow_html=True)
             st.image(img_url, use_container_width=True)
             
-            # Encapsulated Text Details Box to Protect Layout Alignment
             html_content = f"""
             <div class="details-section">
                 <div class="brand-tag">{p['category']} • {p['subcategory']}</div>
@@ -333,7 +358,6 @@ else:
                 <div class="price-container">
             """
             
-            # Dynamic Price Integer Logic Block
             if p["mrp"] and p["price"] and str(p["mrp"]).strip() != "None":
                 try:
                     mrp_int = int(float(p['mrp']))
@@ -361,7 +385,7 @@ else:
                     st.rerun()
             with c2:
                 if sku in st.session_state.cart:
-                    st.markdown(f'<div style="text-align:center; padding-top:6px; font-weight:bold; color:#10B981;">Added ({st.session_state.cart[sku]["qty"]})</div>', unsafe_allow_html=True)
+                    st.markdown(f'<div style="text-align:center; padding-top:6px; font-weight:bold; color:#556B2F;">Added ({st.session_state.cart[sku]["qty"]})</div>', unsafe_allow_html=True)
                 else:
                     if st.button("🛒 Add to List", key=f"a_{sku}_{index}", use_container_width=True):
                         st.session_state.cart[sku] = {"name": name, "qty": 1}
@@ -371,7 +395,7 @@ else:
 # 8. Global Active Cart Display Footer
 if st.session_state.cart:
     st.markdown("---")
-    st.markdown('<div style="background-color: #ECFDF5; padding: 20px; border-radius: 14px; border-left: 6px solid #10B981;">', unsafe_allow_html=True)
+    st.markdown('<div style="background-color: #ECFDF5; padding: 20px; border-radius: 14px; border-left: 6px solid #556B2F;">', unsafe_allow_html=True)
     st.markdown("### 🛒 Active Request Inquiry List")
     items_summary_text = ""
     for idx, (sku_id, item) in enumerate(st.session_state.cart.items(), 1):
