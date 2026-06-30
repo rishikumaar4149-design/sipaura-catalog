@@ -527,4 +527,61 @@ else:
                 <div class="sku-text">SKU: {sku}</div>
                 <div class="preview-spec-container">
                     <span class="spec-pill">🎨 {p['colour']}</span>
-                    <span class="spec-pill">📏 {p
+                    <span class="spec-pill">📏 {p['capacity']}</span>
+                </div>
+                <div class="price-container">
+            """
+            
+            if p["mrp"] and p["price"] and str(p["mrp"]).strip() != "None":
+                try:
+                    mrp_int = int(float(p['mrp']))
+                    price_int = int(float(p['price']))
+                    pct_val = int(round(((mrp_int - price_int) / mrp_int) * 100))
+                    
+                    html_content += f"<span class='mrp-strike'>₹{mrp_int}</span>"
+                    html_content += f"<span class='listing-price'>₹{price_int}</span>"
+                    if pct_val > 0:
+                        html_content += f"<span class='discount-badge'>{pct_val}% OFF</span>"
+                except:
+                    html_content += f"<span class='listing-price'>₹{p['price']}</span>"
+            else:
+                price_lbl = f"₹{int(float(p['price'])) if isinstance(p['price'], (int,float)) else p['price']}" if p['price'] else "Contact for Quote"
+                html_content += f"<span class='listing-price'>{price_lbl}</span>"
+                
+            html_content += "</div></div>"
+            st.markdown(html_content, unsafe_allow_html=True)
+            st.markdown("<br>", unsafe_allow_html=True)
+            
+            c1, c2 = st.columns(2)
+            with c1:
+                if st.button("🔎 View Summary", key=f"v_{sku}_{index}", use_container_width=True):
+                    st.session_state.selected_product = p
+                    st.rerun()
+            with c2:
+                if sku in st.session_state.cart:
+                    st.markdown(f'<div style="text-align:center; padding-top:6px; font-weight:bold; color:#1E293B;">Added ({st.session_state.cart[sku]["qty"]})</div>', unsafe_allow_html=True)
+                else:
+                    if st.button("🛒 Add to List", key=f"a_{sku}_{index}", use_container_width=True):
+                        st.session_state.cart[sku] = {"name": name, "qty": 1}
+                        st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True)
+
+# Inquiry Shopping Cart Footer
+if st.session_state.cart:
+    st.markdown("---")
+    st.markdown('<div style="background-color: #ECFDF5; padding: 20px; border-radius: 14px; border-left: 6px solid #1E293B;">', unsafe_allow_html=True)
+    st.markdown("### 🛒 Active Request Inquiry List")
+    items_summary_text = ""
+    for idx, (sku_id, item) in enumerate(st.session_state.cart.items(), 1):
+        st.write(f"🔹 {item['name']} (Qty: {item['qty']})")
+        items_summary_text += f"{idx}. {item['name']} [{sku_id}]\n"
+    compiled_message = f"Hi {COMPANY_NAME}! I would love to check stock/orders availability for this selection list:\n\n{items_summary_text}"
+    
+    cw1, cw2 = st.columns([3, 1])
+    with cw1:
+        st.link_button("🟢 Send Consolidated List to WhatsApp", f"https://wa.me/{YOUR_PHONE_NUMBER}?text={urllib.parse.quote(compiled_message)}", use_container_width=True)
+    with cw2:
+        if st.button("🗑️ Clear Request List", use_container_width=True):
+            st.session_state.cart = {}
+            st.rerun()
+    st.markdown('</div>', unsafe_allow_html=True)
