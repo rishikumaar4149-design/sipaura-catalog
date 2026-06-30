@@ -4,11 +4,12 @@ import urllib.parse
 COMPANY_NAME = "SipAura"
 st.set_page_config(page_title=COMPANY_NAME, layout="wide", page_icon="🥤")
 
-# 1. Advanced Full HD Theme, Sticky Layout, & Infinite Marquee CSS
+# 1. 25/75 Split-Screen E-Commerce Framework CSS Layout
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     
+    /* Global View App Background */
     .stApp {
         background-color: #F8FAFC;
     }
@@ -18,13 +19,16 @@ st.markdown("""
         to { opacity: 1; transform: translateY(0); }
     }
     
-    /* STICKY SIDEBAR ENGINE (Pins Left Side Elements Natively) */
+    /* -------------------------------------------------- */
+    /* FIXED 25% LEFT SIDEBAR THEME & ALIGNMENT PANEL     */
+    /* -------------------------------------------------- */
     [data-testid="stSidebar"] {
         background-color: #131921 !important;
         color: #FFFFFF !important;
         position: fixed !important;
         top: 0;
         left: 0;
+        width: 25vw !important; /* Perfect 25% viewport allocation wrapper */
         height: 100vh !important;
         overflow-y: auto !important;
         z-index: 999;
@@ -34,14 +38,19 @@ st.markdown("""
         flex-direction: column;
         justify-content: flex-start;
         height: 100%;
+        padding: 10px 14px;
     }
     
+    /* Sidebar text controls mapping */
     [data-testid="stSidebar"] .stMarkdown p, [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3 {
         color: #FFFFFF !important;
     }
     [data-testid="stSidebar"] label {
         color: #E2E8F0 !important;
         font-weight: 500 !important;
+        text-align: center !important;
+        display: block;
+        width: 100%;
     }
     
     /* Centered Circular Sidebar Logo Frame */
@@ -50,15 +59,15 @@ st.markdown("""
         justify-content: center;
         align-items: center;
         width: 100%;
-        margin-bottom: 25px;
-        padding-top: 15px;
+        margin-bottom: 20px;
+        padding-top: 10px;
     }
     .sidebar-logo-container img {
-        width: 140px;
-        height: 140px;
+        width: 130px;
+        height: 130px;
         border-radius: 50%;
         object-fit: cover;
-        border: 2px solid #2D3748;
+        border: 3px solid #1E293B;
         box-shadow: 0 4px 15px rgba(0,0,0,0.4);
     }
     
@@ -66,60 +75,56 @@ st.markdown("""
     .business-intro-context {
         background-color: #1E293B;
         border-radius: 16px;
-        padding: 18px;
-        margin-bottom: 25px;
+        padding: 15px;
+        margin-bottom: 20px;
         border-left: 4px solid #10B981;
     }
     .business-intro-context p {
-        font-size: 13.5px !important;
-        line-height: 1.5 !important;
+        font-size: 13px !important;
+        line-height: 1.45 !important;
         color: #CBD5E1 !important;
         margin: 0 !important;
         text-align: left !important;
     }
     
-    /* Upgraded Dynamic Contact UI Block Card */
+    /* Premium Contact Info Card */
     .premium-contact-card {
         background: linear-gradient(145deg, #1E293B, #0F172A);
         border: 1px solid #2D3748;
         border-radius: 18px;
-        padding: 20px;
+        padding: 16px;
         margin-top: 15px;
-        box-shadow: inset 0 1px 3px rgba(255,255,255,0.05);
     }
     .contact-title-highlight {
         color: #10B981 !important;
         font-weight: 700 !important;
-        font-size: 15px !important;
+        font-size: 14px !important;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 12px !important;
+        margin-bottom: 10px !important;
     }
     .contact-row-entry {
         display: flex;
         align-items: center;
-        margin-bottom: 10px;
-        font-size: 14px;
+        margin-bottom: 8px;
+        font-size: 13.5px;
     }
     .contact-row-entry span {
         color: #94A3B8 !important;
         font-weight: 600;
-        width: 80px;
+        width: 70px;
     }
-    .contact-row-entry a, .contact-row-entry p {
+    .contact-row-entry p, .contact-row-entry a {
         color: #F1F5F9 !important;
         margin: 0 !important;
-        text-decoration: none;
     }
     .query-call-to-action {
-        background: rgba(16, 185, 129, 0.08);
-        border: 1px dashed rgba(16, 185, 129, 0.3);
+        background: rgba(16, 185, 129, 0.06);
+        border: 1px dashed rgba(16, 185, 129, 0.25);
         border-radius: 10px;
-        padding: 8px 12px;
-        margin-top: 14px;
-        font-size: 12.5px;
+        padding: 8px;
+        margin-top: 10px;
+        font-size: 12px;
         color: #A7F3D0 !important;
-        font-weight: 500;
         text-align: center;
     }
     
@@ -130,8 +135,8 @@ st.markdown("""
     }
     .marquee-wrapper-box {
         margin-top: auto; 
-        padding-top: 25px;
-        padding-bottom: 10px;
+        padding-top: 20px;
+        padding-bottom: 5px;
         width: 100%;
         overflow: hidden;
         white-space: nowrap;
@@ -139,7 +144,6 @@ st.markdown("""
     .marquee-scroll-track {
         display: inline-block;
         white-space: nowrap;
-        padding-left: 0;
         animation: continuousMarquee 12s linear infinite;
     }
     .marquee-text-node {
@@ -153,21 +157,28 @@ st.markdown("""
         padding-right: 40px; 
     }
     
-    /* Full HD True Horizontal Banner Container */
+    /* -------------------------------------------------- */
+    /* RIGHT-HAND MAIN CONTAINER: PRODUCT SHOWCASE 75%    */
+    /* -------------------------------------------------- */
+    [data-testid="stMainBlockContainer"] {
+        max-width: 100% !important;
+        padding-top: 20px !important;
+        padding-left: 28vw !important; /* Pushes content clear of the 25vw left sidebar + padding margin */
+        padding-right: 25px !important;
+    }
+    
+    /* Full HD True Widescreen Horizontal Banner */
     .banner-full-hd {
         width: 100% !important;
-        margin-top: -45px !important; 
-        margin-left: 0px !important;
-        margin-right: 0px !important;
         margin-bottom: 30px !important;
         overflow: hidden;
-        border-radius: 0px 0px 24px 24px;
-        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
     }
     .banner-full-hd img {
         width: 100% !important;
         height: auto !important;
-        object-fit: fill !important; 
+        object-fit: cover !important; 
         display: block !important;
     }
     
@@ -176,15 +187,15 @@ st.markdown("""
         background: #FFFFFF;
         border: 1px solid #E2E8F0;
         border-radius: 24px;
-        padding: 24px; 
+        padding: 22px; 
         margin-bottom: 28px;
-        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.015);
+        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.01);
         transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         animation: fadeInUp 0.5s ease-out forwards;
     }
     .product-box:hover {
         transform: translateY(-6px);
-        box-shadow: 0 25px 40px -10px rgba(15, 23, 42, 0.14);
+        box-shadow: 0 25px 40px -10px rgba(15, 23, 42, 0.12);
         border-color: #CBD5E1;
     }
     
@@ -224,7 +235,7 @@ st.markdown("""
     }
     .product-title {
         font-family: 'Inter', sans-serif;
-        font-size: 19px;
+        font-size: 18px;
         font-weight: 800;
         color: #0F172A;
         margin: 4px 0 0px 0;
@@ -310,11 +321,11 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 2. Resilient Auto-Parsing Excel Pipeline (Fixed context reference bug)
+# 2. Resilient Auto-Parsing Excel Pipeline
 @st.cache_data
 def load_data():
     import os
-    import pandas as pd  # 👈 Local initialization blocks internal environment read errors
+    import pandas as pd
     excel_files = [f for f in os.listdir('.') if f.endswith('.xlsx') and not f.startswith('~$')]
     if not excel_files:
         st.error("❌ No Product Spreadsheet detected inside the Repository root.")
@@ -373,23 +384,16 @@ for i in range(len(df)):
 if "cart" not in st.session_state: st.session_state.cart = {}
 if "selected_product" not in st.session_state: st.session_state.selected_product = None
 
-YOUR_PHONE_NUMBER = "919310234464"  # 👈 Synced with your official business line
+YOUR_PHONE_NUMBER = "919310234464"
 
-# 3. STATIC / FROZEN LEFT SIDEBAR LAYOUT
-import os
-logo_file = next((f for f in os.listdir('.') if 'logo' in f.lower() and f.split('.')[-1].lower() in ['png', 'jpg', 'jpeg']), None)
+# 3. FROZEN 25% SIDEBAR CONTAINER
+LOGO_URL = "https://i.postimg.cc/1t838D2R/logo.jpg"
+st.sidebar.markdown(f"""
+    <div class="sidebar-logo-container">
+        <img src="{LOGO_URL}">
+    </div>
+""", unsafe_allow_html=True)
 
-# Logo Injector
-if logo_file:
-    st.sidebar.markdown(f"""
-        <div class="sidebar-logo-container">
-            <img src="app/static/{logo_file}" onerror="this.onerror=null; this.src='./{logo_file}';">
-        </div>
-    """, unsafe_allow_html=True)
-else:
-    st.sidebar.markdown(f'<h1 style="font-size:26px; font-weight:800; text-align:center; color:#FFFFFF; margin-bottom:10px;">{COMPANY_NAME}</h1>', unsafe_allow_html=True)
-
-# 30-50 Word Contextual Business Introduction
 st.sidebar.markdown("""
     <div class="business-intro-context">
         <p>
@@ -411,8 +415,7 @@ else:
     unique_subs = sorted(list(set([p["subcategory"] for p in products])))
 selected_sub = st.sidebar.selectbox("🏷️ Sub-Category", ["All Sub-Categories"] + unique_subs)
 
-# Enhanced Contact Card UI (Attractive layout with interactive message query prompt)
-st.sidebar.markdown(f"""
+st.sidebar.markdown("""
     <div class="premium-contact-card">
         <div class="contact-title-highlight">📞 Help desk channels</div>
         <div class="contact-row-entry">
@@ -427,7 +430,6 @@ st.sidebar.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-# Continuous Infinite Scrolling Marquee Credit Block Loop
 st.sidebar.markdown("""
     <div class="marquee-wrapper-box">
         <div class="marquee-scroll-track">
@@ -439,16 +441,15 @@ st.sidebar.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 4. FIXED FULL HD HORIZONTAL BANNER IMAGE INJECTOR
-BANNER_IMAGE_URL = "https://i.postimg.cc/MTb7X2Qg/banner.jpg" 
-
+# 4. RIGHT SIDEBAR DISPLAY GRID 75%
+BANNER_URL = "https://i.postimg.cc/MTb7X2Qg/banner.jpg"
 st.markdown(f"""
     <div class="banner-full-hd">
-        <img src="{BANNER_IMAGE_URL}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1523362628745-0c100150b504?w=1920&q=80';">
+        <img src="{BANNER_URL}">
     </div>
 """, unsafe_allow_html=True)
 
-# 5. Details Preview Drawer
+# Details Preview Drawer
 if st.session_state.selected_product:
     p = st.session_state.selected_product
     st.markdown('<div class="summary-card">', unsafe_allow_html=True)
@@ -493,7 +494,7 @@ if st.session_state.selected_product:
                 st.rerun()
     st.markdown('</div>', unsafe_allow_html=True)
 
-# 6. Apply Filter Pipelines
+# Filter Processing
 filtered_products = []
 for p in products:
     if selected_category != "All Categories" and p["category"] != selected_category: continue
@@ -504,7 +505,7 @@ for p in products:
             continue
     filtered_products.append(p)
 
-# 7. Products Show Grid Rendering
+# Grid Layout Generation
 if not filtered_products:
     st.info("No hydration items matched those metrics.")
 else:
@@ -516,12 +517,7 @@ else:
 
         with cols[index % 3]:
             st.markdown('<div class="product-box">', unsafe_allow_html=True)
-            
-            st.markdown(f"""
-                <div class="bottle-img-container">
-                    <img src="{img_url}">
-                </div>
-            """, unsafe_allow_html=True)
+            st.markdown(f'<div class="bottle-img-container"><img src="{img_url}"></div>', unsafe_allow_html=True)
             
             html_content = f"""
             <div class="details-section">
@@ -531,61 +527,4 @@ else:
                 <div class="sku-text">SKU: {sku}</div>
                 <div class="preview-spec-container">
                     <span class="spec-pill">🎨 {p['colour']}</span>
-                    <span class="spec-pill">📏 {p['capacity']}</span>
-                </div>
-                <div class="price-container">
-            """
-            
-            if p["mrp"] and p["price"] and str(p["mrp"]).strip() != "None":
-                try:
-                    mrp_int = int(float(p['mrp']))
-                    price_int = int(float(p['price']))
-                    pct_val = int(round(((mrp_int - price_int) / mrp_int) * 100))
-                    
-                    html_content += f"<span class='mrp-strike'>₹{mrp_int}</span>"
-                    html_content += f"<span class='listing-price'>₹{price_int}</span>"
-                    if pct_val > 0:
-                        html_content += f"<span class='discount-badge'>{pct_val}% OFF</span>"
-                except:
-                    html_content += f"<span class='listing-price'>₹{p['price']}</span>"
-            else:
-                price_lbl = f"₹{int(float(p['price'])) if isinstance(p['price'], (int,float)) else p['price']}" if p['price'] else "Contact for Quote"
-                html_content += f"<span class='listing-price'>{price_lbl}</span>"
-                
-            html_content += "</div></div>"
-            st.markdown(html_content, unsafe_allow_html=True)
-            st.markdown("<br>", unsafe_allow_html=True)
-            
-            c1, c2 = st.columns(2)
-            with c1:
-                if st.button("🔎 View Summary", key=f"v_{sku}_{index}", use_container_width=True):
-                    st.session_state.selected_product = p
-                    st.rerun()
-            with c2:
-                if sku in st.session_state.cart:
-                    st.markdown(f'<div style="text-align:center; padding-top:6px; font-weight:bold; color:#1E293B;">Added ({st.session_state.cart[sku]["qty"]})</div>', unsafe_allow_html=True)
-                else:
-                    if st.button("🛒 Add to List", key=f"a_{sku}_{index}", use_container_width=True):
-                        st.session_state.cart[sku] = {"name": name, "qty": 1}
-                        st.rerun()
-            st.markdown('</div>', unsafe_allow_html=True)
-
-# 8. Global Active Cart Display Footer
-if st.session_state.cart:
-    st.markdown("---")
-    st.markdown('<div style="background-color: #ECFDF5; padding: 20px; border-radius: 14px; border-left: 6px solid #1E293B;">', unsafe_allow_html=True)
-    st.markdown("### 🛒 Active Request Inquiry List")
-    items_summary_text = ""
-    for idx, (sku_id, item) in enumerate(st.session_state.cart.items(), 1):
-        st.write(f"🔹 {item['name']} (Qty: {item['qty']})")
-        items_summary_text += f"{idx}. {item['name']} [{sku_id}]\n"
-    compiled_message = f"Hi {COMPANY_NAME}! I would love to check stock/orders availability for this selection list:\n\n{items_summary_text}"
-    
-    cw1, cw2 = st.columns([3, 1])
-    with cw1:
-        st.link_button("🟢 Send Consolidated List to WhatsApp", f"https://wa.me/{YOUR_PHONE_NUMBER}?text={urllib.parse.quote(compiled_message)}", use_container_width=True)
-    with cw2:
-        if st.button("🗑️ Clear Request List", use_container_width=True):
-            st.session_state.cart = {}
-            st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
+                    <span class="spec-pill">📏 {p
