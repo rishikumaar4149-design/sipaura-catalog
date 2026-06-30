@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 import urllib.parse
 
 COMPANY_NAME = "SipAura"
@@ -19,9 +18,7 @@ st.markdown("""
         to { opacity: 1; transform: translateY(0); }
     }
     
-    /* ---------------------------------------------------------------- */
-    /* CRITICAL: STICKY SIDEBAR ENGINE (Pins Left Side Elements Natively) */
-    /* ---------------------------------------------------------------- */
+    /* STICKY SIDEBAR ENGINE (Pins Left Side Elements Natively) */
     [data-testid="stSidebar"] {
         background-color: #131921 !important;
         color: #FFFFFF !important;
@@ -32,7 +29,6 @@ st.markdown("""
         overflow-y: auto !important;
         z-index: 999;
     }
-    /* Pushes main page right to accommodate the sticky sidebar element layout grid */
     [data-testid="stSidebarUserContent"] {
         display: flex;
         flex-direction: column;
@@ -40,7 +36,6 @@ st.markdown("""
         height: 100%;
     }
     
-    /* Center align markdown structures inside sidebar panel context */
     [data-testid="stSidebar"] .stMarkdown p, [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3 {
         color: #FFFFFF !important;
     }
@@ -128,15 +123,13 @@ st.markdown("""
         text-align: center;
     }
     
-    /* ---------------------------------------------------------------- */
-    /* INFINITE CONTINUOUS MARQUEE ENGINE (Continuous Scrolling Footer) */
-    /* ---------------------------------------------------------------- */
+    /* INFINITE CONTINUOUS MARQUEE ENGINE */
     @keyframes continuousMarquee {
         0% { transform: translate3d(0, 0, 0); }
         100% { transform: translate3d(-50%, 0, 0); }
     }
     .marquee-wrapper-box {
-        margin-top: auto; /* Pushes element straight down to bottom of sticky sidebar view window */
+        margin-top: auto; 
         padding-top: 25px;
         padding-bottom: 10px;
         width: 100%;
@@ -157,9 +150,8 @@ st.markdown("""
         letter-spacing: 1.5px;
         color: #64748B !important;
         text-transform: uppercase;
-        padding-right: 40px; /* Buffer space separation node boundary gap */
+        padding-right: 40px; 
     }
-    /* ---------------------------------------------------------------- */
     
     /* Full HD True Horizontal Banner Container */
     .banner-full-hd {
@@ -318,10 +310,11 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 2. Resilient Auto-Parsing Excel Pipeline
+# 2. Resilient Auto-Parsing Excel Pipeline (Fixed context reference bug)
 @st.cache_data
 def load_data():
     import os
+    import pandas as pd  # 👈 Local initialization blocks internal environment read errors
     excel_files = [f for f in os.listdir('.') if f.endswith('.xlsx') and not f.startswith('~$')]
     if not excel_files:
         st.error("❌ No Product Spreadsheet detected inside the Repository root.")
@@ -342,6 +335,7 @@ def load_data():
 df = load_data()
 
 def get_clean_col(dataframe, keys, default=""):
+    import pandas as pd
     for k in keys:
         match = [c for c in dataframe.columns if c.lower().strip() == k.lower().strip()]
         if match: return dataframe[match[0]]
@@ -361,6 +355,7 @@ spec_s = get_clean_col(df, ["Specification", "Specifications"]).fillna("Premium 
 kw_s = get_clean_col(df, ["Key Words", "Keywords"]).fillna("")
 img_s = get_clean_col(df, ["Images", "Image Link"]).fillna("")
 
+import pandas as pd
 products = []
 for i in range(len(df)):
     if pd.isna(sku_s.iloc[i]) or str(sku_s.iloc[i]).strip() == "nan":
@@ -378,7 +373,7 @@ for i in range(len(df)):
 if "cart" not in st.session_state: st.session_state.cart = {}
 if "selected_product" not in st.session_state: st.session_state.selected_product = None
 
-YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 REPLACE WITH YOUR ACTUAL WHATSAPP NUMBER HERE
+YOUR_PHONE_NUMBER = "919310234464"  # 👈 Synced with your official business line
 
 # 3. STATIC / FROZEN LEFT SIDEBAR LAYOUT
 import os
@@ -417,7 +412,7 @@ else:
 selected_sub = st.sidebar.selectbox("🏷️ Sub-Category", ["All Sub-Categories"] + unique_subs)
 
 # Enhanced Contact Card UI (Attractive layout with interactive message query prompt)
-st.sidebar.markdown("""
+st.sidebar.markdown(f"""
     <div class="premium-contact-card">
         <div class="contact-title-highlight">📞 Help desk channels</div>
         <div class="contact-row-entry">
