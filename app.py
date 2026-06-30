@@ -5,10 +5,10 @@ import urllib.parse
 COMPANY_NAME = "SipAura"
 st.set_page_config(page_title=COMPANY_NAME, layout="wide", page_icon="🥤")
 
-# 1. Full HD Premium Theme, Sidebar Logo Theme & 4:5 Grid CSS Layout
+# 1. Advanced Full HD Theme, Sticky Layout, & Infinite Marquee CSS
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     
     .stApp {
         background-color: #F8FAFC;
@@ -19,28 +19,34 @@ st.markdown("""
         to { opacity: 1; transform: translateY(0); }
     }
     
-    /* Dynamic Sidebar Theme to match Logo Dark Charcoal */
+    /* ---------------------------------------------------------------- */
+    /* CRITICAL: STICKY SIDEBAR ENGINE (Pins Left Side Elements Natively) */
+    /* ---------------------------------------------------------------- */
     [data-testid="stSidebar"] {
         background-color: #131921 !important;
         color: #FFFFFF !important;
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        height: 100vh !important;
+        overflow-y: auto !important;
+        z-index: 999;
     }
-    [data-testid="stSidebar"] hr {
-        border-color: #2D3748 !important;
+    /* Pushes main page right to accommodate the sticky sidebar element layout grid */
+    [data-testid="stSidebarUserContent"] {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        height: 100%;
     }
-    [data-testid="stSidebar"] .stMarkdown p, [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h3 {
+    
+    /* Center align markdown structures inside sidebar panel context */
+    [data-testid="stSidebar"] .stMarkdown p, [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3 {
         color: #FFFFFF !important;
-        text-align: center !important;
     }
-    /* Center align input element labels in sidebar */
     [data-testid="stSidebar"] label {
         color: #E2E8F0 !important;
-        text-align: center !important;
-        display: block !important;
-        width: 100% !important;
-    }
-    /* Center align sidebar widget inputs */
-    [data-testid="stSidebar"] .stTextInput, [data-testid="stSidebar"] .stSelectbox {
-        text-align: center !important;
+        font-weight: 500 !important;
     }
     
     /* Centered Circular Sidebar Logo Frame */
@@ -49,8 +55,8 @@ st.markdown("""
         justify-content: center;
         align-items: center;
         width: 100%;
-        margin-bottom: 20px;
-        padding-top: 10px;
+        margin-bottom: 25px;
+        padding-top: 15px;
     }
     .sidebar-logo-container img {
         width: 140px;
@@ -60,6 +66,100 @@ st.markdown("""
         border: 2px solid #2D3748;
         box-shadow: 0 4px 15px rgba(0,0,0,0.4);
     }
+    
+    /* Business Context Intro Block Panel Box */
+    .business-intro-context {
+        background-color: #1E293B;
+        border-radius: 16px;
+        padding: 18px;
+        margin-bottom: 25px;
+        border-left: 4px solid #10B981;
+    }
+    .business-intro-context p {
+        font-size: 13.5px !important;
+        line-height: 1.5 !important;
+        color: #CBD5E1 !important;
+        margin: 0 !important;
+        text-align: left !important;
+    }
+    
+    /* Upgraded Dynamic Contact UI Block Card */
+    .premium-contact-card {
+        background: linear-gradient(145deg, #1E293B, #0F172A);
+        border: 1px solid #2D3748;
+        border-radius: 18px;
+        padding: 20px;
+        margin-top: 15px;
+        box-shadow: inset 0 1px 3px rgba(255,255,255,0.05);
+    }
+    .contact-title-highlight {
+        color: #10B981 !important;
+        font-weight: 700 !important;
+        font-size: 15px !important;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px !important;
+    }
+    .contact-row-entry {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+    .contact-row-entry span {
+        color: #94A3B8 !important;
+        font-weight: 600;
+        width: 80px;
+    }
+    .contact-row-entry a, .contact-row-entry p {
+        color: #F1F5F9 !important;
+        margin: 0 !important;
+        text-decoration: none;
+    }
+    .query-call-to-action {
+        background: rgba(16, 185, 129, 0.08);
+        border: 1px dashed rgba(16, 185, 129, 0.3);
+        border-radius: 10px;
+        padding: 8px 12px;
+        margin-top: 14px;
+        font-size: 12.5px;
+        color: #A7F3D0 !important;
+        font-weight: 500;
+        text-align: center;
+    }
+    
+    /* ---------------------------------------------------------------- */
+    /* INFINITE CONTINUOUS MARQUEE ENGINE (Continuous Scrolling Footer) */
+    /* ---------------------------------------------------------------- */
+    @keyframes continuousMarquee {
+        0% { transform: translate3d(0, 0, 0); }
+        100% { transform: translate3d(-50%, 0, 0); }
+    }
+    .marquee-wrapper-box {
+        margin-top: auto; /* Pushes element straight down to bottom of sticky sidebar view window */
+        padding-top: 25px;
+        padding-bottom: 10px;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    .marquee-scroll-track {
+        display: inline-block;
+        white-space: nowrap;
+        padding-left: 0;
+        animation: continuousMarquee 12s linear infinite;
+    }
+    .marquee-text-node {
+        display: inline-block;
+        font-family: 'Inter', sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        color: #64748B !important;
+        text-transform: uppercase;
+        padding-right: 40px; /* Buffer space separation node boundary gap */
+    }
+    /* ---------------------------------------------------------------- */
     
     /* Full HD True Horizontal Banner Container */
     .banner-full-hd {
@@ -215,16 +315,6 @@ st.markdown("""
         box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
         margin-bottom: 30px;
     }
-    .sidebar-credit {
-        font-size: 11px;
-        color: #94A3B8;
-        font-weight: 600;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        margin-top: 40px;
-        text-align: center;
-        width: 100%;
-    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -290,13 +380,26 @@ if "selected_product" not in st.session_state: st.session_state.selected_product
 
 YOUR_PHONE_NUMBER = "91XXXXXXXXXX"  # 👈 REPLACE WITH YOUR ACTUAL WHATSAPP NUMBER HERE
 
-# 3. Sidebar Filtering & Centered Layout with Embedded Web Logo Link
-# ⚠️ PASTE YOUR COPYS DIRECT LINK FROM POSTIMAGES BETWEEN THE QUOTES BELOW:
-LOGO_IMAGE_URL = "https://i.postimg.cc/QdsBtB7q/logo.jpg"
+# 3. STATIC / FROZEN LEFT SIDEBAR LAYOUT
+import os
+logo_file = next((f for f in os.listdir('.') if 'logo' in f.lower() and f.split('.')[-1].lower() in ['png', 'jpg', 'jpeg']), None)
 
-st.sidebar.markdown(f"""
-    <div class="sidebar-logo-container">
-        <img src="{LOGO_IMAGE_URL}">
+# Logo Injector
+if logo_file:
+    st.sidebar.markdown(f"""
+        <div class="sidebar-logo-container">
+            <img src="app/static/{logo_file}" onerror="this.onerror=null; this.src='./{logo_file}';">
+        </div>
+    """, unsafe_allow_html=True)
+else:
+    st.sidebar.markdown(f'<h1 style="font-size:26px; font-weight:800; text-align:center; color:#FFFFFF; margin-bottom:10px;">{COMPANY_NAME}</h1>', unsafe_allow_html=True)
+
+# 30-50 Word Contextual Business Introduction
+st.sidebar.markdown("""
+    <div class="business-intro-context">
+        <p>
+            SipAura is a premium e-commerce marketplace specializing in next-generation vacuum-insulated premium drinkware, luxury active flasks, and athletic shakers. Every piece balances ergonomics with temperature-locking engineering to keep your hydration flawlessly fresh all day long.
+        </p>
     </div>
 """, unsafe_allow_html=True)
 
@@ -313,15 +416,36 @@ else:
     unique_subs = sorted(list(set([p["subcategory"] for p in products])))
 selected_sub = st.sidebar.selectbox("🏷️ Sub-Category", ["All Sub-Categories"] + unique_subs)
 
-st.sidebar.markdown("---")
-st.sidebar.markdown("### 📞 Contact Information")
-st.sidebar.markdown("💬 **WhatsApp:** +91 XXXXX XXXXX")
-st.sidebar.markdown("📧 **Email:** support@sipaura.com")
+# Enhanced Contact Card UI (Attractive layout with interactive message query prompt)
+st.sidebar.markdown("""
+    <div class="premium-contact-card">
+        <div class="contact-title-highlight">📞 Help desk channels</div>
+        <div class="contact-row-entry">
+            <span>💬 Chat:</span>
+            <p>+91 93102 34464</p>
+        </div>
+        <div class="contact-row-entry">
+            <span>📧 Email:</span>
+            <a href="mailto:support@sipaura.com">support@sipaura.com</a>
+        </div>
+        <div class="query-call-to-action">🙋 Have a custom order request? Feel free to ask your query right now over chat!</div>
+    </div>
+""", unsafe_allow_html=True)
 
-st.sidebar.markdown('<div class="sidebar-credit">Powered by InFlowMart</div>', unsafe_allow_html=True)
+# Continuous Infinite Scrolling Marquee Credit Block Loop
+st.sidebar.markdown("""
+    <div class="marquee-wrapper-box">
+        <div class="marquee-scroll-track">
+            <span class="marquee-text-node">⚡ Powered by InFlowMart</span>
+            <span class="marquee-text-node">⚡ Powered by InFlowMart</span>
+            <span class="marquee-text-node">⚡ Powered by InFlowMart</span>
+            <span class="marquee-text-node">⚡ Powered by InFlowMart</span>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
 
 # 4. FIXED FULL HD HORIZONTAL BANNER IMAGE INJECTOR
-BANNER_IMAGE_URL = "https://i.postimg.cc/Dy950cfT/banner.jpg" 
+BANNER_IMAGE_URL = "https://i.postimg.cc/MTb7X2Qg/banner.jpg" 
 
 st.markdown(f"""
     <div class="banner-full-hd">
@@ -329,7 +453,7 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-# 5. Interactive Details Preview Block Panel Drawer
+# 5. Details Preview Drawer
 if st.session_state.selected_product:
     p = st.session_state.selected_product
     st.markdown('<div class="summary-card">', unsafe_allow_html=True)
