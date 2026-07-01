@@ -4,10 +4,10 @@ import urllib.parse
 COMPANY_NAME = "SipAura"
 st.set_page_config(page_title=COMPANY_NAME, layout="wide", page_icon="🥤")
 
-# 1. 3D Engine, Single-Page Sidebar, & Banner Alignment CSS
+# 1. Advanced Full HD Theme, 3D Typography Engine, Sticky Layout, & Infinite Marquee CSS
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,600;1,800&display=swap');
     
     .stApp {
         background-color: #F8FAFC;
@@ -18,9 +18,7 @@ st.markdown("""
         to { opacity: 1; transform: translateY(0); }
     }
     
-    /* -------------------------------------------------- */
-    /* FIXED SINGLE-PAGE 25% LEFT SIDEBAR CONTAINER       */
-    /* -------------------------------------------------- */
+    /* STICKY SIDEBAR ENGINE (Pins Left Side Elements Natively) */
     [data-testid="stSidebar"] {
         background-color: #131921 !important;
         color: #FFFFFF !important;
@@ -29,14 +27,14 @@ st.markdown("""
         left: 0;
         width: 25vw !important; 
         height: 100vh !important;
-        max-height: 100vh !important; /* Locks sidebar into exactly one viewport frame */
-        overflow: hidden !important; /* Eliminates independent sidebar scrolling entirely */
+        max-height: 100vh !important; 
+        overflow: hidden !important; 
         z-index: 999;
     }
     [data-testid="stSidebarUserContent"] {
         display: flex;
         flex-direction: column;
-        justify-content: space-between; /* Dynamically balances spacing over single frame */
+        justify-content: space-between; 
         height: 100vh !important;
         padding: 12px 16px !important;
         box-sizing: border-box;
@@ -53,27 +51,17 @@ st.markdown("""
         width: 100%;
         margin-bottom: 2px !important;
     }
+    [data-testid="stSidebar"] .stWidget { margin-bottom: 6px !important; }
+    [data-testid="stSidebar"] input, [data-testid="stSidebar"] select { text-align: center !important; }
     
-    /* Compact spacing adjustments for sidebar input items */
-    [data-testid="stSidebar"] .stWidget {
-        margin-bottom: 6px !important;
-    }
-    
-    /* Center align sidebar widget inputs text */
-    [data-testid="stSidebar"] input, [data-testid="stSidebar"] select {
-        text-align: center !important;
-    }
-    
-    /* -------------------------------------------------- */
-    /* PREMIUM 3D LOGO EMBED FRAME                         */
-    /* -------------------------------------------------- */
+    /* 3D Sidebar Circular Logo Frame */
     .sidebar-logo-container {
         display: flex;
         justify-content: center;
         align-items: center;
         width: 100%;
         margin-bottom: 10px;
-        perspective: 1000px; /* Activates 3D workspace canvas space */
+        perspective: 1000px;
     }
     .sidebar-logo-container img {
         width: 115px;
@@ -81,20 +69,8 @@ st.markdown("""
         border-radius: 50%;
         object-fit: cover;
         border: 1px solid rgba(255, 255, 255, 0.15);
-        
-        /* High-Definition Layered 3D Shadow Matrix */
         transform: rotateX(8deg) rotateY(-4deg);
-        box-shadow: 
-            0 1px 1px rgba(0,0,0,0.15),
-            0 2px 2px rgba(0,0,0,0.15),
-            0 4px 4px rgba(0,0,0,0.15),
-            0 8px 16px rgba(0,0,0,0.25),
-            0 16px 32px rgba(0,0,0,0.3);
-        transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-    .sidebar-logo-container img:hover {
-        transform: rotateX(0deg) rotateY(0deg) scale(1.04);
-        box-shadow: 0 20px 38px rgba(0,0,0,0.45);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.25), 0 16px 32px rgba(0,0,0,0.3);
     }
     
     /* Compact Business Context Intro Panel Box */
@@ -139,10 +115,7 @@ st.markdown("""
         font-weight: 600;
         width: 65px;
     }
-    .contact-row-entry p, .contact-row-entry a {
-        color: #F1F5F9 !important;
-        margin: 0 !important;
-    }
+    .contact-row-entry p, .contact-row-entry a { color: #F1F5F9 !important; margin: 0 !important; }
     .query-call-to-action {
         background: rgba(16, 185, 129, 0.05);
         border: 1px dashed rgba(16, 185, 129, 0.2);
@@ -183,38 +156,80 @@ st.markdown("""
     }
     
     /* -------------------------------------------------- */
-    /* MAIN INTERFACE ROW: 75% FLEX WORKSPACE GRID        */
+    /* MAIN INTERFACE CONTENT FRAMEWAY RE-ALIGNMENT 75%  */
     /* -------------------------------------------------- */
     [data-testid="stMainBlockContainer"] {
         max-width: 100% !important;
         padding-top: 25px !important;
-        padding-left: 27vw !important; /* Positions content cleanly relative to the fixed sidebar width */
+        padding-left: 27vw !important; 
         padding-right: 30px !important;
     }
     
     /* -------------------------------------------------- */
-    /* UN-CUT FIXED FULL HD 3D BANNER IMAGE VIEWPORT      */
+    /* PROCEDURAL HORI BANNER TEXT WRITING ENGINE (3D)    */
     /* -------------------------------------------------- */
-    .banner-full-hd-3d {
-        width: 100% !important;
-        margin-top: 0px !important; /* FIXED: Zeroed margin ensures top of banner is never clipped */
-        margin-bottom: 35px !important;
-        overflow: hidden;
-        border-radius: 20px;
-        perspective: 1500px; /* Instills rich structural canvas depth */
+    @keyframes strokeWrite {
+        to { stroke-dashoffset: 0; }
     }
-    .banner-full-hd-3d img {
-        width: 100% !important;
-        height: auto !important;
-        object-fit: contain !important; /* FIXED: 'contain' accurately scales whole image bounds into view safely */
-        display: block !important;
+    @keyframes extrude3D {
+        to {
+            text-shadow: 
+                1px 1px 0px #3B4B20, 2px 2px 0px #3B4B20, 3px 3px 0px #3B4B20,
+                4px 4px 0px #3B4B20, 5px 5px 0px #2D3715, 6px 6px 0px #2D3715,
+                7px 7px 12px rgba(0,0,0,0.35), 0px 15px 30px rgba(85,107,47,0.25);
+            transform: rotateX(12deg) rotateY(-6deg) translateY(0);
+        }
+    }
+    @keyframes subTagFade {
+        to { opacity: 0.85; transform: translateY(0); }
+    }
+    
+    .animated-banner-canvas {
+        width: 100%;
+        background: linear-gradient(135deg, #FDFBF7 0%, #EFECE6 100%);
+        border: 1px solid #E2E8F0;
+        border-radius: 24px;
+        padding: 40px 20px;
+        margin-bottom: 35px;
+        text-align: center;
+        perspective: 1200px;
+        box-shadow: 0 10px 25px rgba(15,23,42,0.04);
+        box-sizing: border-box;
+    }
+    
+    /* Handdrawn SVG Stroke Vector Styles */
+    .signature-path-text {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-weight: 800;
+        font-size: 96px; /* Grand Full HD presentation metric footprint scale */
+        fill: transparent;
+        stroke: #556B2F; /* Luxury Olive Green Core */
+        stroke-width: 2px;
+        stroke-dasharray: 700;
+        stroke-dashoffset: 700;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        display: inline-block;
         
-        /* Deep Isometric 3D Horizon Effect Drop-Shadows */
-        transform: rotateX(5deg);
-        box-shadow: 
-            0 5px 15px rgba(0, 0, 0, 0.08),
-            0 15px 35px rgba(15, 23, 42, 0.12),
-            0 30px 60px rgba(15, 23, 42, 0.06);
+        /* Execution Phase Order: Write out borders, then pop 3D dimensions */
+        animation: 
+            strokeWrite 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+            extrude3D 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 2s forwards;
+    }
+    
+    /* Elegant E-Commerce Tagline */
+    .animated-subtag-banner {
+        font-family: 'Inter', sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        color: #1E293B;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        margin-top: 15px;
+        opacity: 0;
+        transform: translateY(8px);
+        animation: subTagFade 0.6s ease-out 2.4s forwards;
     }
     
     /* Interactive Product Grid Box */
@@ -222,7 +237,7 @@ st.markdown("""
         background: #FFFFFF;
         border: 1px solid #E2E8F0;
         border-radius: 24px;
-        padding: 22px; 
+        padding: 24px; 
         margin-bottom: 28px;
         box-shadow: 0 4px 14px rgba(15, 23, 42, 0.01);
         transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -259,7 +274,6 @@ st.markdown("""
         flex-direction: column;
         justify-content: flex-start;
     }
-    
     .brand-tag {
         font-size: 11px;
         text-transform: uppercase;
@@ -476,11 +490,13 @@ st.sidebar.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 4. RIGHT SIDEBAR SHOWCASE GRID 75%
-BANNER_URL = "https://i.postimg.cc/MTb7X2Qg/banner.jpg"
-st.markdown(f"""
-    <div class="banner-full-hd-3d">
-        <img src="{BANNER_URL}">
+# 4. PROCEDURAL 3D WRITING BANNER REPLACEMENT (Replaces image layout dynamically)
+st.markdown("""
+    <div class="animated-banner-canvas">
+        <svg viewBox="0 0 1000 140" width="100%">
+            <text x="50%" y="95" text-anchor="middle" class="signature-path-text">SipAura</text>
+        </svg>
+        <div class="animated-subtag-banner">Bring Your Own</div>
     </div>
 """, unsafe_allow_html=True)
 
