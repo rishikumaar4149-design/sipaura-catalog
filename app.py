@@ -4,12 +4,11 @@ import urllib.parse
 COMPANY_NAME = "SipAura"
 st.set_page_config(page_title=COMPANY_NAME, layout="wide", page_icon="🥤")
 
-# 1. 25/75 Split-Screen E-Commerce Framework CSS Layout
+# 1. 3D Engine, Single-Page Sidebar, & Banner Alignment CSS
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     
-    /* Global View App Background */
     .stApp {
         background-color: #F8FAFC;
     }
@@ -20,7 +19,7 @@ st.markdown("""
     }
     
     /* -------------------------------------------------- */
-    /* FIXED 25% LEFT SIDEBAR THEME & ALIGNMENT PANEL     */
+    /* FIXED SINGLE-PAGE 25% LEFT SIDEBAR CONTAINER       */
     /* -------------------------------------------------- */
     [data-testid="stSidebar"] {
         background-color: #131921 !important;
@@ -28,20 +27,21 @@ st.markdown("""
         position: fixed !important;
         top: 0;
         left: 0;
-        width: 25vw !important; /* Perfect 25% viewport allocation wrapper */
+        width: 25vw !important; 
         height: 100vh !important;
-        overflow-y: auto !important;
+        max-height: 100vh !important; /* Locks sidebar into exactly one viewport frame */
+        overflow: hidden !important; /* Eliminates independent sidebar scrolling entirely */
         z-index: 999;
     }
     [data-testid="stSidebarUserContent"] {
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
-        height: 100%;
-        padding: 10px 14px;
+        justify-content: space-between; /* Dynamically balances spacing over single frame */
+        height: 100vh !important;
+        padding: 12px 16px !important;
+        box-sizing: border-box;
     }
     
-    /* Sidebar text controls mapping */
     [data-testid="stSidebar"] .stMarkdown p, [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3 {
         color: #FFFFFF !important;
     }
@@ -51,37 +51,63 @@ st.markdown("""
         text-align: center !important;
         display: block;
         width: 100%;
+        margin-bottom: 2px !important;
     }
     
-    /* Centered Circular Sidebar Logo Frame */
+    /* Compact spacing adjustments for sidebar input items */
+    [data-testid="stSidebar"] .stWidget {
+        margin-bottom: 6px !important;
+    }
+    
+    /* Center align sidebar widget inputs text */
+    [data-testid="stSidebar"] input, [data-testid="stSidebar"] select {
+        text-align: center !important;
+    }
+    
+    /* -------------------------------------------------- */
+    /* PREMIUM 3D LOGO EMBED FRAME                         */
+    /* -------------------------------------------------- */
     .sidebar-logo-container {
         display: flex;
         justify-content: center;
         align-items: center;
         width: 100%;
-        margin-bottom: 20px;
-        padding-top: 10px;
+        margin-bottom: 10px;
+        perspective: 1000px; /* Activates 3D workspace canvas space */
     }
     .sidebar-logo-container img {
-        width: 130px;
-        height: 130px;
+        width: 115px;
+        height: 115px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid #1E293B;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        
+        /* High-Definition Layered 3D Shadow Matrix */
+        transform: rotateX(8deg) rotateY(-4deg);
+        box-shadow: 
+            0 1px 1px rgba(0,0,0,0.15),
+            0 2px 2px rgba(0,0,0,0.15),
+            0 4px 4px rgba(0,0,0,0.15),
+            0 8px 16px rgba(0,0,0,0.25),
+            0 16px 32px rgba(0,0,0,0.3);
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .sidebar-logo-container img:hover {
+        transform: rotateX(0deg) rotateY(0deg) scale(1.04);
+        box-shadow: 0 20px 38px rgba(0,0,0,0.45);
     }
     
-    /* Business Context Intro Block Panel Box */
+    /* Compact Business Context Intro Panel Box */
     .business-intro-context {
         background-color: #1E293B;
-        border-radius: 16px;
-        padding: 15px;
-        margin-bottom: 20px;
+        border-radius: 14px;
+        padding: 12px;
+        margin-bottom: 10px;
         border-left: 4px solid #10B981;
     }
     .business-intro-context p {
-        font-size: 13px !important;
-        line-height: 1.45 !important;
+        font-size: 12.5px !important;
+        line-height: 1.4 !important;
         color: #CBD5E1 !important;
         margin: 0 !important;
         text-align: left !important;
@@ -91,39 +117,39 @@ st.markdown("""
     .premium-contact-card {
         background: linear-gradient(145deg, #1E293B, #0F172A);
         border: 1px solid #2D3748;
-        border-radius: 18px;
-        padding: 16px;
-        margin-top: 15px;
+        border-radius: 16px;
+        padding: 14px;
+        margin-top: 5px;
     }
     .contact-title-highlight {
         color: #10B981 !important;
         font-weight: 700 !important;
-        font-size: 14px !important;
+        font-size: 13px !important;
         text-transform: uppercase;
-        margin-bottom: 10px !important;
+        margin-bottom: 8px !important;
     }
     .contact-row-entry {
         display: flex;
         align-items: center;
-        margin-bottom: 8px;
-        font-size: 13.5px;
+        margin-bottom: 6px;
+        font-size: 13px;
     }
     .contact-row-entry span {
         color: #94A3B8 !important;
         font-weight: 600;
-        width: 70px;
+        width: 65px;
     }
     .contact-row-entry p, .contact-row-entry a {
         color: #F1F5F9 !important;
         margin: 0 !important;
     }
     .query-call-to-action {
-        background: rgba(16, 185, 129, 0.06);
-        border: 1px dashed rgba(16, 185, 129, 0.25);
-        border-radius: 10px;
-        padding: 8px;
-        margin-top: 10px;
-        font-size: 12px;
+        background: rgba(16, 185, 129, 0.05);
+        border: 1px dashed rgba(16, 185, 129, 0.2);
+        border-radius: 8px;
+        padding: 6px;
+        margin-top: 8px;
+        font-size: 11.5px;
         color: #A7F3D0 !important;
         text-align: center;
     }
@@ -134,12 +160,11 @@ st.markdown("""
         100% { transform: translate3d(-50%, 0, 0); }
     }
     .marquee-wrapper-box {
-        margin-top: auto; 
-        padding-top: 20px;
-        padding-bottom: 5px;
         width: 100%;
         overflow: hidden;
         white-space: nowrap;
+        padding-top: 10px;
+        padding-bottom: 2px;
     }
     .marquee-scroll-track {
         display: inline-block;
@@ -149,7 +174,7 @@ st.markdown("""
     .marquee-text-node {
         display: inline-block;
         font-family: 'Inter', sans-serif;
-        font-size: 11px;
+        font-size: 10.5px;
         font-weight: 700;
         letter-spacing: 1.5px;
         color: #64748B !important;
@@ -158,28 +183,38 @@ st.markdown("""
     }
     
     /* -------------------------------------------------- */
-    /* RIGHT-HAND MAIN CONTAINER: PRODUCT SHOWCASE 75%    */
+    /* MAIN INTERFACE ROW: 75% FLEX WORKSPACE GRID        */
     /* -------------------------------------------------- */
     [data-testid="stMainBlockContainer"] {
         max-width: 100% !important;
-        padding-top: 20px !important;
-        padding-left: 28vw !important; /* Pushes content clear of the 25vw left sidebar + padding margin */
-        padding-right: 25px !important;
+        padding-top: 25px !important;
+        padding-left: 27vw !important; /* Positions content cleanly relative to the fixed sidebar width */
+        padding-right: 30px !important;
     }
     
-    /* Full HD True Widescreen Horizontal Banner */
-    .banner-full-hd {
+    /* -------------------------------------------------- */
+    /* UN-CUT FIXED FULL HD 3D BANNER IMAGE VIEWPORT      */
+    /* -------------------------------------------------- */
+    .banner-full-hd-3d {
         width: 100% !important;
-        margin-bottom: 30px !important;
+        margin-top: 0px !important; /* FIXED: Zeroed margin ensures top of banner is never clipped */
+        margin-bottom: 35px !important;
         overflow: hidden;
         border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        perspective: 1500px; /* Instills rich structural canvas depth */
     }
-    .banner-full-hd img {
+    .banner-full-hd-3d img {
         width: 100% !important;
         height: auto !important;
-        object-fit: cover !important; 
+        object-fit: contain !important; /* FIXED: 'contain' accurately scales whole image bounds into view safely */
         display: block !important;
+        
+        /* Deep Isometric 3D Horizon Effect Drop-Shadows */
+        transform: rotateX(5deg);
+        box-shadow: 
+            0 5px 15px rgba(0, 0, 0, 0.08),
+            0 15px 35px rgba(15, 23, 42, 0.12),
+            0 30px 60px rgba(15, 23, 42, 0.06);
     }
     
     /* Interactive Product Grid Box */
@@ -386,7 +421,7 @@ if "selected_product" not in st.session_state: st.session_state.selected_product
 
 YOUR_PHONE_NUMBER = "919310234464"
 
-# 3. FROZEN 25% SIDEBAR CONTAINER
+# 3. STATIC / FROZEN LEFT SIDEBAR LAYOUT
 LOGO_URL = "https://i.postimg.cc/1t838D2R/logo.jpg"
 st.sidebar.markdown(f"""
     <div class="sidebar-logo-container">
@@ -397,7 +432,7 @@ st.sidebar.markdown(f"""
 st.sidebar.markdown("""
     <div class="business-intro-context">
         <p>
-            SipAura is a premium e-commerce marketplace specializing in next-generation vacuum-insulated premium drinkware, luxury active flasks, and athletic shakers. Every piece balances ergonomics with temperature-locking engineering to keep your hydration flawlessly fresh all day long.
+            SipAura is a premium marketplace specializing in next-generation vacuum-insulated drinkware. Every piece balances ergonomics with temperature-locking engineering to keep your hydration flawlessly fresh.
         </p>
     </div>
 """, unsafe_allow_html=True)
@@ -441,10 +476,10 @@ st.sidebar.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 4. RIGHT SIDEBAR DISPLAY GRID 75%
+# 4. RIGHT SIDEBAR SHOWCASE GRID 75%
 BANNER_URL = "https://i.postimg.cc/MTb7X2Qg/banner.jpg"
 st.markdown(f"""
-    <div class="banner-full-hd">
+    <div class="banner-full-hd-3d">
         <img src="{BANNER_URL}">
     </div>
 """, unsafe_allow_html=True)
