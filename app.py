@@ -4,23 +4,24 @@ import urllib.parse
 COMPANY_NAME = "SipAura"
 st.set_page_config(page_title=COMPANY_NAME, layout="wide", page_icon="🥤")
 
-# 1. Advanced Full HD Theme, 3D Typography Engine, Sticky Layout, & Infinite Marquee CSS
+# 1. High-Profile 3D Theme, Extended Writing Animation, & Fluid Grid Layout CSS
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,600;1,800&display=swap');
     
+    /* Premium High-Profile Web Background Frame */
     .stApp {
-        background-color: #F8FAFC;
+        background-color: #FAF9F6 !important; /* Soft Luxury Alabaster Cream */
     }
     
     @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(12px); }
+        from { opacity: 0; transform: translateY(16px); }
         to { opacity: 1; transform: translateY(0); }
     }
     
-    /* STICKY SIDEBAR ENGINE (Pins Left Side Elements Natively) */
+    /* HIGH-PROFILE FIXED LEFT NAVIGATION SIDEBAR PANEL */
     [data-testid="stSidebar"] {
-        background-color: #131921 !important;
+        background-color: #1E2229 !important; /* Deep Premium Soft Charcoal */
         color: #FFFFFF !important;
         position: fixed !important;
         top: 0;
@@ -30,13 +31,14 @@ st.markdown("""
         max-height: 100vh !important; 
         overflow: hidden !important; 
         z-index: 999;
+        border-right: 1px solid rgba(255,255,255,0.05);
     }
     [data-testid="stSidebarUserContent"] {
         display: flex;
         flex-direction: column;
         justify-content: space-between; 
         height: 100vh !important;
-        padding: 12px 16px !important;
+        padding: 16px 20px !important;
         box-sizing: border-box;
     }
     
@@ -49,9 +51,9 @@ st.markdown("""
         text-align: center !important;
         display: block;
         width: 100%;
-        margin-bottom: 2px !important;
+        margin-bottom: 4px !important;
     }
-    [data-testid="stSidebar"] .stWidget { margin-bottom: 6px !important; }
+    [data-testid="stSidebar"] .stWidget { margin-bottom: 8px !important; }
     [data-testid="stSidebar"] input, [data-testid="stSidebar"] select { text-align: center !important; }
     
     /* 3D Sidebar Circular Logo Frame */
@@ -60,49 +62,50 @@ st.markdown("""
         justify-content: center;
         align-items: center;
         width: 100%;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
         perspective: 1000px;
     }
     .sidebar-logo-container img {
-        width: 115px;
-        height: 115px;
+        width: 120px;
+        height: 120px;
         border-radius: 50%;
         object-fit: cover;
-        border: 1px solid rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(197, 168, 128, 0.4); /* Accent Champagne Gold Rim */
         transform: rotateX(8deg) rotateY(-4deg);
-        box-shadow: 0 8px 16px rgba(0,0,0,0.25), 0 16px 32px rgba(0,0,0,0.3);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     }
     
-    /* Compact Business Context Intro Panel Box */
+    /* Boutique Business Context Intro Panel Box */
     .business-intro-context {
-        background-color: #1E293B;
+        background-color: #272D37;
         border-radius: 14px;
-        padding: 12px;
-        margin-bottom: 10px;
-        border-left: 4px solid #10B981;
+        padding: 14px;
+        margin-bottom: 12px;
+        border-left: 4px solid #C5A880; /* Elegant Champagne Gold Indicator Stripe */
     }
     .business-intro-context p {
-        font-size: 12.5px !important;
-        line-height: 1.4 !important;
+        font-size: 13px !important;
+        line-height: 1.45 !important;
         color: #CBD5E1 !important;
         margin: 0 !important;
         text-align: left !important;
     }
     
-    /* Premium Contact Info Card */
+    /* Premium Contact Info Card Layout */
     .premium-contact-card {
-        background: linear-gradient(145deg, #1E293B, #0F172A);
-        border: 1px solid #2D3748;
+        background: linear-gradient(145deg, #272D37, #1E2229);
+        border: 1px solid #323A45;
         border-radius: 16px;
-        padding: 14px;
+        padding: 16px;
         margin-top: 5px;
     }
     .contact-title-highlight {
-        color: #10B981 !important;
+        color: #C5A880 !important; /* Gold Highlight */
         font-weight: 700 !important;
         font-size: 13px !important;
         text-transform: uppercase;
-        margin-bottom: 8px !important;
+        letter-spacing: 1px;
+        margin-bottom: 10px !important;
     }
     .contact-row-entry {
         display: flex;
@@ -117,13 +120,13 @@ st.markdown("""
     }
     .contact-row-entry p, .contact-row-entry a { color: #F1F5F9 !important; margin: 0 !important; }
     .query-call-to-action {
-        background: rgba(16, 185, 129, 0.05);
-        border: 1px dashed rgba(16, 185, 129, 0.2);
+        background: rgba(197, 168, 128, 0.05);
+        border: 1px dashed rgba(197, 168, 128, 0.25);
         border-radius: 8px;
-        padding: 6px;
+        padding: 8px;
         margin-top: 8px;
-        font-size: 11.5px;
-        color: #A7F3D0 !important;
+        font-size: 12px;
+        color: #E2E8F0 !important;
         text-align: center;
     }
     
@@ -142,7 +145,7 @@ st.markdown("""
     .marquee-scroll-track {
         display: inline-block;
         white-space: nowrap;
-        animation: continuousMarquee 12s linear infinite;
+        animation: continuousMarquee 15s linear infinite;
     }
     .marquee-text-node {
         display: inline-block;
@@ -150,23 +153,23 @@ st.markdown("""
         font-size: 10.5px;
         font-weight: 700;
         letter-spacing: 1.5px;
-        color: #64748B !important;
+        color: #4E5766 !important;
         text-transform: uppercase;
         padding-right: 40px; 
     }
     
     /* -------------------------------------------------- */
-    /* MAIN INTERFACE CONTENT FRAMEWAY RE-ALIGNMENT 75%  */
+    /* RIGHT SHOWCASE MAIN CANVAS FRAMEWAY SEGMENT        */
     /* -------------------------------------------------- */
     [data-testid="stMainBlockContainer"] {
         max-width: 100% !important;
-        padding-top: 25px !important;
-        padding-left: 27vw !important; 
-        padding-right: 30px !important;
+        padding-top: 30px !important;
+        padding-left: 28vw !important; 
+        padding-right: 35px !important;
     }
     
     /* -------------------------------------------------- */
-    /* PROCEDURAL HORI BANNER TEXT WRITING ENGINE (3D)    */
+    /* ULTRA-LARGE SLOW WRITING 3D TEXT BANNER CODES       */
     /* -------------------------------------------------- */
     @keyframes strokeWrite {
         to { stroke-dashoffset: 0; }
@@ -174,79 +177,77 @@ st.markdown("""
     @keyframes extrude3D {
         to {
             text-shadow: 
-                1px 1px 0px #3B4B20, 2px 2px 0px #3B4B20, 3px 3px 0px #3B4B20,
-                4px 4px 0px #3B4B20, 5px 5px 0px #2D3715, 6px 6px 0px #2D3715,
-                7px 7px 12px rgba(0,0,0,0.35), 0px 15px 30px rgba(85,107,47,0.25);
-            transform: rotateX(12deg) rotateY(-6deg) translateY(0);
+                1px 1px 0px #A08866, 2px 2px 0px #A08866, 3px 3px 0px #A08866,
+                4px 4px 0px #8C7555, 5px 5px 0px #756143, 6px 6px 0px #5E4E32,
+                7px 7px 16px rgba(0,0,0,0.25), 0px 20px 40px rgba(197,168,128,0.15);
+            transform: rotateX(10deg) rotateY(-4deg) translateY(0);
         }
     }
     @keyframes subTagFade {
-        to { opacity: 0.85; transform: translateY(0); }
+        to { opacity: 0.75; transform: translateY(0); }
     }
     
     .animated-banner-canvas {
         width: 100%;
-        background: linear-gradient(135deg, #FDFBF7 0%, #EFECE6 100%);
-        border: 1px solid #E2E8F0;
-        border-radius: 24px;
-        padding: 40px 20px;
-        margin-bottom: 35px;
+        background: linear-gradient(135deg, #1E2229 0%, #12151A 100%); /* Sleek dark-mode container canvas balance */
+        border: 1px solid #272D37;
+        border-radius: 28px;
+        padding: 55px 20px; /* Increased canvas window padding for vertical scale layout size */
+        margin-bottom: 40px;
         text-align: center;
         perspective: 1200px;
-        box-shadow: 0 10px 25px rgba(15,23,42,0.04);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.08);
         box-sizing: border-box;
     }
     
-    /* Handdrawn SVG Stroke Vector Styles */
     .signature-path-text {
         font-family: 'Playfair Display', Georgia, serif;
         font-style: italic;
         font-weight: 800;
-        font-size: 96px; /* Grand Full HD presentation metric footprint scale */
+        font-size: 120px; /* Upscaled typography footprint layout footprint metrics size */
         fill: transparent;
-        stroke: #556B2F; /* Luxury Olive Green Core */
-        stroke-width: 2px;
-        stroke-dasharray: 700;
-        stroke-dashoffset: 700;
+        stroke: #C5A880; /* Premium Champagne Gold Accent Line color */
+        stroke-width: 2.5px;
+        stroke-dasharray: 900;
+        stroke-dashoffset: 900;
         stroke-linecap: round;
         stroke-linejoin: round;
         display: inline-block;
         
-        /* Execution Phase Order: Write out borders, then pop 3D dimensions */
+        /* SLOW DOWN RUNS: Extended drawing window loops perfectly */
         animation: 
-            strokeWrite 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards,
-            extrude3D 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 2s forwards;
+            strokeWrite 3.8s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+            extrude3D 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 3.6s forwards;
     }
     
-    /* Elegant E-Commerce Tagline */
     .animated-subtag-banner {
         font-family: 'Inter', sans-serif;
-        font-size: 18px;
+        font-size: 15px;
         font-weight: 600;
-        color: #1E293B;
-        letter-spacing: 4px;
+        color: #E2E8F0;
+        letter-spacing: 6px; /* Spaced high-profile branding accent tracker line */
         text-transform: uppercase;
-        margin-top: 15px;
+        margin-top: 25px;
         opacity: 0;
         transform: translateY(8px);
-        animation: subTagFade 0.6s ease-out 2.4s forwards;
+        animation: subTagFade 0.8s ease-out 4.2s forwards;
     }
     
-    /* Interactive Product Grid Box */
+    /* Modern Architectural Catalogue Product Card Box */
     .product-box {
         background: #FFFFFF;
-        border: 1px solid #E2E8F0;
+        border: 1px solid #EAE8E4;
         border-radius: 24px;
         padding: 24px; 
-        margin-bottom: 28px;
-        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.01);
-        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        animation: fadeInUp 0.5s ease-out forwards;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 20px rgba(30,34,41,0.015);
+        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        animation: fadeInUp 0.6s ease-out forwards;
     }
     .product-box:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 25px 40px -10px rgba(15, 23, 42, 0.12);
-        border-color: #CBD5E1;
+        transform: translateY(-8px);
+        box-shadow: 0 30px 50px -10px rgba(30,34,41,0.08);
+        border-color: #D5D2CE;
     }
     
     /* Strict 4:5 Portrait Aspect Ratio Container Logic */
@@ -255,9 +256,9 @@ st.markdown("""
         position: relative;
         padding-top: 125%; 
         overflow: hidden;
-        margin-bottom: 16px;
+        margin-bottom: 18px;
         border-radius: 16px;
-        background-color: #FAFAFA;
+        background-color: #FDFDFD;
     }
     .bottle-img-container img {
         position: absolute;
@@ -275,44 +276,44 @@ st.markdown("""
         justify-content: flex-start;
     }
     .brand-tag {
-        font-size: 11px;
+        font-size: 10.5px;
         text-transform: uppercase;
         letter-spacing: 1.5px;
-        color: #94A3B8;
+        color: #A09E9A;
         font-weight: 700;
-        margin-bottom: 2px;
+        margin-bottom: 4px;
     }
     .product-title {
         font-family: 'Inter', sans-serif;
         font-size: 18px;
         font-weight: 800;
-        color: #0F172A;
+        color: #1E2229;
         margin: 4px 0 0px 0;
-        line-height: 1.3;
+        line-height: 1.35;
     }
     .by-brand-subscript {
         font-size: 12px;
-        color: #64748B;
+        color: #7A7874;
         font-weight: 500;
         margin-bottom: 8px;
         display: block;
     }
     .sku-text {
         font-family: monospace;
-        color: #94A3B8;
+        color: #A09E9A;
         font-size: 11px;
         font-weight: 600;
         margin-bottom: 12px;
     }
     
     .spec-pill {
-        background-color: #F8FAFC;
-        color: #334155;
-        border: 1px solid #E2E8F0;
-        font-size: 12px;
+        background-color: #F5F4F0;
+        color: #4A4946;
+        border: 1px solid #E5E3DF;
+        font-size: 11.5px;
         font-weight: 600;
         padding: 3px 10px;
-        border-radius: 8px;
+        border-radius: 6px;
         display: inline-block;
         margin-right: 6px;
         margin-bottom: 8px;
@@ -323,22 +324,22 @@ st.markdown("""
         padding-top: 12px;
     }
     .mrp-strike {
-        font-size: 14px;
-        color: #94A3B8;
+        font-size: 13.5px;
+        color: #A09E9A;
         text-decoration: line-through;
         margin-right: 6px;
         font-weight: 500;
     }
     .listing-price {
-        font-size: 24px;
+        font-size: 23px;
         font-weight: 900;
-        color: #0F172A;
+        color: #1E2229;
         display: inline-block;
     }
     .discount-badge {
-        background-color: #25D366;
+        background-color: #C5A880; /* Cohesive Gold Discount badge tag */
         color: #FFFFFF;
-        font-size: 12px;
+        font-size: 11.5px;
         font-weight: 800;
         padding: 3px 8px;
         border-radius: 6px;
@@ -346,26 +347,27 @@ st.markdown("""
         margin-left: 6px;
     }
     
+    /* Interactive Buttons Theme mapping */
     .stButton>button {
-        background-color: #1E293B !important; 
+        background-color: #1E2229 !important; 
         color: white !important;
         border-radius: 12px !important;
         border: none !important;
         font-weight: 600 !important;
         padding: 12px 20px !important;
-        transition: all 0.2s ease;
+        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     }
     .stButton>button:hover {
-        background-color: #0F172A !important;
-        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+        background-color: #C5A880 !important; /* Transitions beautifully to accent champagne profile on hover interaction */
+        box-shadow: 0 4px 15px rgba(197,168,128,0.25);
     }
     .summary-card {
         background: #FFFFFF;
         border-radius: 24px;
         padding: 24px;
-        border: 2px solid #1E293B;
-        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
-        margin-bottom: 30px;
+        border: 2px solid #C5A880;
+        box-shadow: 0 10px 30px rgba(30,34,41,0.03);
+        margin-bottom: 35px;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -435,7 +437,7 @@ if "selected_product" not in st.session_state: st.session_state.selected_product
 
 YOUR_PHONE_NUMBER = "919310234464"
 
-# 3. STATIC / FROZEN LEFT SIDEBAR LAYOUT
+# 3. FROZEN SINGLE-PAGE SIDEBAR CONTAINER
 LOGO_URL = "https://i.postimg.cc/1t838D2R/logo.jpg"
 st.sidebar.markdown(f"""
     <div class="sidebar-logo-container">
@@ -490,11 +492,11 @@ st.sidebar.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 4. PROCEDURAL 3D WRITING BANNER REPLACEMENT (Replaces image layout dynamically)
+# 4. PROCEDURAL HIGH-RESOLUTION SLOW 3D WRITING TEXT BANNER
 st.markdown("""
     <div class="animated-banner-canvas">
-        <svg viewBox="0 0 1000 140" width="100%">
-            <text x="50%" y="95" text-anchor="middle" class="signature-path-text">SipAura</text>
+        <svg viewBox="0 0 1000 150" width="100%">
+            <text x="50%" y="105" text-anchor="middle" class="signature-path-text">SipAura</text>
         </svg>
         <div class="animated-subtag-banner">Bring Your Own</div>
     </div>
@@ -522,7 +524,7 @@ if st.session_state.selected_product:
                 disc_lbl = f"<span class='discount-badge'>{pct}% OFF</span>" if pct > 0 else ""
             except:
                 disc_lbl = ""
-            st.markdown(f"💰 **Pricing Tiers:** <span class='mrp-strike'>MRP: ₹{int(float(p['mrp']))}</span> <span style='color:#1E293B; font-weight:900; font-size:28px;'>₹{int(float(p['price']))}</span> {disc_lbl}", unsafe_allow_html=True)
+            st.markdown(f"💰 **Pricing Tiers:** <span class='mrp-strike'>MRP: ₹{int(float(p['mrp']))}</span> <span style='color:#1E2229; font-weight:900; font-size:28px;'>₹{int(float(p['price']))}</span> {disc_lbl}", unsafe_allow_html=True)
         else:
             st.markdown(f"💰 **Pricing Tiers:** **₹{int(float(p['price'])) if p['price'] else 'Contact Sales'}**")
             
@@ -610,7 +612,7 @@ else:
                     st.rerun()
             with c2:
                 if sku in st.session_state.cart:
-                    st.markdown(f'<div style="text-align:center; padding-top:6px; font-weight:bold; color:#1E293B;">Added ({st.session_state.cart[sku]["qty"]})</div>', unsafe_allow_html=True)
+                    st.markdown(f'<div style="text-align:center; padding-top:6px; font-weight:bold; color:#1E2229;">Added ({st.session_state.cart[sku]["qty"]})</div>', unsafe_allow_html=True)
                 else:
                     if st.button("🛒 Add to List", key=f"a_{sku}_{index}", use_container_width=True):
                         st.session_state.cart[sku] = {"name": name, "qty": 1}
@@ -620,7 +622,7 @@ else:
 # Inquiry Shopping Cart Footer
 if st.session_state.cart:
     st.markdown("---")
-    st.markdown('<div style="background-color: #ECFDF5; padding: 20px; border-radius: 14px; border-left: 6px solid #1E293B;">', unsafe_allow_html=True)
+    st.markdown('<div style="background-color: #ECFDF5; padding: 20px; border-radius: 14px; border-left: 6px solid #C5A880;">', unsafe_allow_html=True)
     st.markdown("### 🛒 Active Request Inquiry List")
     items_summary_text = ""
     for idx, (sku_id, item) in enumerate(st.session_state.cart.items(), 1):
